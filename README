@@ -1,0 +1,39 @@
+Javaglue is a Java->C/C++ code generator that is automatic and
+full-featured.  Javaglue now also includes Rhino to provide
+Javascript->Java, which then supports Javascript->Java->C++.
+
+The javaglue script illustrates all required build steps.  The script
+should be usable in a larger build process.  Compiling may or may not
+be desired depending on complexity of dependencies.  Current output
+includes jar files and shared libraries.
+
+Tested on MacOSX so far.  Linux should be working or easily fixed.
+Windows should work given a Bash environment.
+
+Old:
+Summary
+-------
+XSLT Interface Generator is a project that automatically generates the 
+the JNI bindings for an existing library. 
+The bindings can be used to access the functions of the source library.
+
+-----
+
+Copyright (c) 2006 The XBiG Development Team
+
+This file is part of XBiG (The XSLT Bindings Generator)
+
+XBiG is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2, or (at your option)
+any later version.
+
+XBiG is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with XBiG; see the file COPYING.  If not, write to
+the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
+Boston, MA 02111-1307, USA.

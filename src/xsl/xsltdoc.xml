@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<XSLTdocConfig>
+  <Title>XBiG</Title>
+  <Introduction>
+    <p>Documentation of the XBiG XSL sources.</p>
+    <p>The XSLT Bindings Generator - XBiG - is a project 
+    that uses XSL transformations to generate foreign function 
+    interfaces (bindings) for libraries.</p>
+  </Introduction>
+  
+  <!-- 
+    The absolute or relative path to the target directory 
+    where the HTML files are created. If a relative path
+    is used it is always relative to the config file.
+   -->
+  <TargetDirectory path="../../doc/xsltdoc"/>
+  <!-- 
+    The absolute or relative path to the source directory.
+    This is where the XSLT source files can be found.
+    If a relative path is used it is always relative 
+    to the config file.
+   -->
+  <SourceDirectory path="./"/>
+  <!-- 
+    A list of source code files which shall be documented. 
+    Only stylesheets which are not included by another
+    have to be listed here. The included stylesheets
+    are found automatically by following the include or
+    the import statements in the including stylesheet.
+    Relative references are relative to the SourceDirectory
+    defined above.
+   -->
+  <RootStylesheets dir="./">
+    <File href="cpp2j/meta2java/meta2java.xslt"/>
+    <File href="cpp2j/meta2cpp/meta2cpp.xslt"/>
+    <File href="doxygen2meta/doxygen2meta.xslt"/>
+    <File href="util/createClassForArray.xslt"/>
+    <File href="util/createClassFromTemplateTypedef.xslt"/>
+    <File href="util/createFunctionsForPublicAttribute.xslt"/>
+    <File href="util/firstLetterToUpperCase.xslt"/>
+    <File href="util/metaInheritedMethods.xslt"/>
+    <File href="util/metaMethodName.xslt"/>
+    <File href="util/metaMethodsEqual.xslt"/>
+    <File href="util/metaParameterListSignature.xslt"/>
+    <File href="util/metaParameterSignature.xslt"/>
+    <File href="util/metaTypeInfo.xslt"/>
+    <File href="util/path.xslt"/>
+    <File href="util/utilXmlPrint.xslt"/>
+  </RootStylesheets>
+  
+  <!-- 
+    A list of CSS Stylesheet files which should be added to the standard CSS file included (XSLTdoc.css)
+    - Not mandatory
+    - media attribute optional.
+  -->
+  <AdditionalCSS>
+  </AdditionalCSS>
+</XSLTdocConfig>

@@ -1,0 +1,59 @@
+#!/bin/bash -e
+if [ "$VERBOSE" = 1 ]; then set -xv; fi
+# Bail on any errors
+set -e
+
+JGDIR=`dirname $0`
+JGDIR=`cd $JGDIR/..;/bin/pwd`
+sys=`uname -s`
+LIBSO=""
+if [ "$sys" = "Darwin" ]; then
+   export JAVA_HOME=`/usr/libexec/java_home`
+   JAVA_INC=${JAVA_HOME}/include
+   JAVA_INC2="${JAVA_HOME}/include/darwin"
+   LIBSO=dylib
+   CPPFLAGS=-fPIC
+   JGDIRW=${JGDIR}
+   FIX=cat
+fi
+if [ "$sys" = "Linux" ]; then
+   if [ "$JAVA_HOME" = "" ]; then export JAVA_HOME=$(readlink -f /usr/bin/java | sed "s:jre/bin/java::"); fi
+   JAVA_INC=${JAVA_HOME}/include
+   JAVA_INC2="${JAVA_HOME}/include/linux"
+   LIBSO=so
+   CPPFLAGS=-fPIC
+   JGDIRW=${JGDIR}
+   FIX=cat
+fi
+# Fallback for Windows.  Assume JAVA_HOME is set.
+if [ "$LIBSO" = "" ]; then
+   JAVA_INC=${JAVA_HOME}/include
+   JAVA_INC2="${JAVA_HOME}/include/win32"
+   LIBSO=dll
+   CPPFLAGS=
+   export FIX='sed -e s@/cygdrive/c@C:@ -e s@/cygdrive/d@D:@'
+   JGDIRW=`echo $JGDIR|$FIX`
+   echo JGDIRW: $JGDIRW
+fi
+
+if [ ! -f ${JAVA_INC}/jni.h ] || [ ! -f ${JAVA_INC2}/jni_md.h ]; then
+  echo "JAVA_HOME must be unset for autodetect or set to the Oracle 7 Java home directory so that include/jni.h and include/{darwin,linux,win32}/jni_md.h can be found."
+  exit -2
+fi
+
+# Often not in the path on Windows
+export PATH=$JAVA_HOME/bin:$PATH
+
+# Assumes JAVA_CLASSPATH is set if desired
+if [ "$JAVA_CLASSPATH" != "" ]; then
+  JAVA_CLASSPATH_ARG="-classpath ${JAVA_CLASSPATH}"
+fi
+
+if [ "$ANT" = "" ]; then ANT=${JGDIR}/extern/ant/bin/ant; fi
+
+JAVALFILES=`find ${JGDIR}/src/java -name '*.java'`
+JAVALFILESW=`echo $JAVALFILES|${FIX}`
+JAVAAFILES=`find ${JGDIR}/src/java2 -name '*.java'`
+JAVAAFILESW=`echo $JAVAAFILES|${FIX}`
+
+echo ${JAVALFILESW} ${JAVAAFILESW}

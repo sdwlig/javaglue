@@ -1,0 +1,6 @@
+#!/bin/bash
+
+# cp ../build.xml .
+# ant -Dxbig.home=`pwd`/.. -Dxbig.input=/Users/sdw/svn/null/cpp-library-project-template/include -Dxbig.ignorelist=`pwd`/../ignore_list.xml -f build.xml
+
+ant -Dxbig.home=`pwd`  -Dxbig.input==/Users/sdw/svn/null/cpp-library-project-template/include -Dxbig.libname=xbig -Dxbig.ignorelist=ignore_list.xml -f build.xml

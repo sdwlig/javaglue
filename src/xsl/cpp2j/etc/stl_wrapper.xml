@@ -1,0 +1,2083 @@
+<namespace name="std" fullName="std">
+
+	<class protection="public" name="vector" fullName="std::vector" template="true">
+		<templateparameters>
+			<templateparameter templateType="class" templateDeclaration="T"/>
+		</templateparameters>
+
+		<additionalInfo>
+			<info name="value_type" typeParaPos="1"/>
+			<info name="pointer" typeParaPos="1" changePassedBy="true" newPassedBy="pointer"/>
+			<info name="const_pointer" typeParaPos="1" changePassedBy="true" newPassedBy="pointer" addConst="true"/>
+		</additionalInfo>
+
+		<includes local="no">vector</includes>
+<!-- 
+		<class name="iterator" fullName="std::vector::iterator">
+			<function virt="non-virtual" visibility="public" static="false" const="false"
+						passedBy="value">
+				<name>iterator</name>
+				<definition>std::vector::iterator::iterator</definition>
+			</function>
+		</class>
+ -->
+		<function virt="non-virtual" visibility="public" static="false" const="false"
+                   passedBy="value">
+            <name>vector</name>
+            <definition>std::vector::vector</definition>
+         </function>
+<!-- 
+		<function virt="non-virtual" visibility="public" static="false" const="false"
+                   passedBy="value">
+            <name>vector</name>
+            <definition>std::vector::vector</definition>
+			<parameters>
+				<parameter passedBy="reference">
+					<type const="true">vector&lt;T&gt;</type>
+					<name>c</name>
+				</parameter>
+			</parameters>
+         </function>
+ -->
+<!-- 
+		<function virt="non-virtual" visibility="public" static="false" const="false"
+                   passedBy="value">
+            <name>vector</name>
+            <definition>std::vector::vector</definition>
+			<parameters>
+				<parameter passedBy="value">
+					<type const="false">size_t</type>
+					<name>num</name>
+				</parameter>
+				<parameter passedBy="reference">
+					<type const="true">T</type>
+					<name>val</name>
+				</parameter>
+			</parameters>
+         </function>
+ -->
+		<function virt="non-virtual" visibility="public" static="false" const="false"
+					passedBy="value">
+			<type>void</type>
+			<definition>void std::vector::assign</definition>
+			<name>assign</name>
+			<parameters>
+				<parameter passedBy="value">
+					<type const="false">size_t</type>
+					<name>num</name>
+				</parameter>
+				<parameter passedBy="reference">
+					<type const="true">T</type>
+					<name>val</name>
+				</parameter>
+			</parameters>
+		</function>
+
+		<function virt="non-virtual" visibility="public" static="false" const="false"
+					passedBy="reference">
+			<type>T</type>
+			<definition>T&amp; std::vector::at</definition>
+			<name>at</name>
+			<parameters>
+				<parameter passedBy="value">
+					<type const="false">size_t</type>
+					<name>loc</name>
+				</parameter>
+			</parameters>
+		</function>
+
+		<function virt="non-virtual" visibility="public" static="false" const="false"
+					passedBy="reference">
+			<type>T</type>
+			<definition>T std::vector::back</definition>
+			<name>back</name>
+		</function>
+
+		<function virt="non-virtual" visibility="public" static="false" const="false"
+					passedBy="value">
+			<type>size_t</type>
+			<definition>size_t std::vector::capacity</definition>
+			<name>capacity</name>
+		</function>
+
+		<function virt="non-virtual" visibility="public" static="false" const="false"
+					passedBy="value">
+			<type>void</type>
+			<definition>void std::vector::clear</definition>
+			<name>clear</name>
+		</function>
+
+		<function virt="non-virtual" visibility="public" static="false" const="false"
+					passedBy="value">
+			<type>bool</type>
+			<definition>bool std::vector::empty</definition>
+			<name>empty</name>
+		</function>
+
+		<function virt="non-virtual" visibility="public" static="false" const="false"
+					passedBy="reference">
+			<type>T</type>
+			<definition>T std::vector::front</definition>
+			<name>front</name>
+		</function>
+
+		<function virt="non-virtual" visibility="public" static="false" const="false"
+					passedBy="value">
+			<type>size_t</type>
+			<definition>size_t std::vector::max_size</definition>
+			<name>max_size</name>
+		</function>
+
+		<function virt="non-virtual" visibility="public" static="false" const="false"
+					passedBy="value">
+			<type>void</type>
+			<definition>void std::vector::pop_back</definition>
+			<name>pop_back</name>
+		</function>
+
+		<function virt="non-virtual" visibility="public" static="false" const="false"
+					passedBy="value">
+			<type>void</type>
+			<definition>void std::vector::push_back</definition>
+			<name>push_back</name>
+			<parameters>
+				<parameter passedBy="reference">
+					<type const="true">T</type>
+					<name>val</name>
+				</parameter>
+			</parameters>
+		</function>
+
+		<function virt="non-virtual" visibility="public" static="false" const="false"
+					passedBy="value">
+			<type>void</type>
+			<definition>void std::vector::reserve</definition>
+			<name>reserve</name>
+			<parameters>
+				<parameter passedBy="value">
+					<type const="true">size_t</type>
+					<name>size</name>
+				</parameter>
+			</parameters>
+		</function>
+
+		<!-- uses default c-tor of type parameter
+		<function virt="non-virtual" visibility="public" static="false" const="false"
+					passedBy="value">
+			<type>void</type>
+			<definition>void std::vector::resize</definition>
+			<name>resize</name>
+			<parameters>
+				<parameter passedBy="value">
+					<type const="false">size_t</type>
+					<name>num</name>
+				</parameter>
+			</parameters>
+		</function>
+		-->
+		<!-- second parameter is a c-tor
+		<function virt="non-virtual" visibility="public" static="false" const="false"
+					passedBy="value">
+			<type>void</type>
+			<definition>void std::vector::resize</definition>
+			<name>resize</name>
+			<parameters>
+				<parameter passedBy="value">
+					<type const="false">size_t</type>
+					<name>num</name>
+				</parameter>
+				<parameter passedBy="reference">
+					<type const="false">T</type>
+					<name>val</name>
+				</parameter>
+			</parameters>
+		</function>
+		 -->
+		<function virt="non-virtual" visibility="public" static="false" const="false"
+					passedBy="value">
+			<type>size_t</type>
+			<definition>size_t std::vector::size</definition>
+			<name>size</name>
+		</function>
+
+	</class>
+
+	<class protection="public" name="deque" fullName="std::deque" template="true">
+		<templateparameters>
+			<templateparameter templateType="class" templateDeclaration="T"/>
+		</templateparameters>
+
+		<additionalInfo>
+			<info name="size_type" typeParaPos="1"/>
+		</additionalInfo>
+
+		<includes local="no">deque</includes>
+
+		<function virt="non-virtual" visibility="public" static="false" const="false"
+					passedBy="value">
+			<name>deque</name>
+			<definition>std::deque::deque</definition>
+		</function>
+		
+		<function virt="non-virtual" visibility="public" static="false" const="false"
+					passedBy="value">
+			<name>assign</name>
+			<type>void</type>
+			<definition>std::deque::assign</definition>
+			<parameters>
+				<parameter passedBy="value">
+					<type const="false">size_t</type>
+					<name>num</name>
+				</parameter>
+				<parameter passedBy="reference">
+					<type const="true">T</type>
+					<name>val</name>
+				</parameter>
+			</parameters>
+		</function>
+		
+		<function virt="non-virtual" visibility="public" static="false" const="false"
+					passedBy="reference">
+			<name>at</name>
+			<type>T</type>
+			<definition>std::deque::at</definition>
+			<parameters>
+				<parameter passedBy="value">
+					<type const="false">size_t</type>
+					<name>loc</name>
+				</parameter>
+			</parameters>
+		</function>
+		
+		<function virt="non-virtual" visibility="public" static="false" const="false"
+					passedBy="reference">
+			<name>back</name>
+			<type>T</type>
+			<definition>std::deque::back</definition>
+		</function>
+		
+		<function virt="non-virtual" visibility="public" static="false" const="false"
+					passedBy="value">
+			<name>clear</name>
+			<type>void</type>
+			<definition>std::deque::clear</definition>
+		</function>
+		
+		<function virt="non-virtual" visibility="public" static="false" const="true"
+					passedBy="value">
+			<name>empty</name>
+			<type>bool</type>
+			<definition>std::deque::empty</definition>
+		</function>
+		
+		<function virt="non-virtual" visibility="public" static="false" const="false"
+					passedBy="reference">
+			<name>front</name>
+			<type>T</type>
+			<definition>std::deque::front</definition>
+		</function>
+		
+		<function virt="non-virtual" visibility="public" static="false" const="true"
+					passedBy="value">
+			<name>max_size</name>
+			<type>size_t</type>
+			<definition>std::deque::max_size</definition>
+		</function>
+		
+		<function virt="non-virtual" visibility="public" static="false" const="false"
+					passedBy="value">
+			<name>pop_back</name>
+			<type>void</type>
+			<definition>std::deque::pop_back</definition>
+		</function>
+		
+		<function virt="non-virtual" visibility="public" static="false" const="false"
+					passedBy="value">
+			<name>pop_front</name>
+			<type>void</type>
+			<definition>std::deque::pop_front</definition>
+		</function>
+		
+		<function virt="non-virtual" visibility="public" static="false" const="false"
+					passedBy="value">
+			<name>push_back</name>
+			<type>void</type>
+			<definition>std::deque::push_back</definition>
+			<parameters>
+				<parameter passedBy="reference">
+					<type const="true">T</type>
+					<name>val</name>
+				</parameter>
+			</parameters>
+		</function>
+		
+		<function virt="non-virtual" visibility="public" static="false" const="false"
+					passedBy="value">
+			<name>push_front</name>
+			<type>void</type>
+			<definition>std::deque::push_front</definition>
+			<parameters>
+				<parameter passedBy="reference">
+					<type const="true">T</type>
+					<name>val</name>
+				</parameter>
+			</parameters>
+		</function>
+		<!-- second parameter is a c-tor
+		<function virt="non-virtual" visibility="public" static="false" const="false"
+					passedBy="value">
+			<name>resize</name>
+			<type>void</type>
+			<definition>std::deque::resize</definition>
+			<parameters>
+				<parameter passedBy="value">
+					<type const="false">size_t</type>
+					<name>num</name>
+				</parameter>
+				<parameter passedBy="reference">
+					<type const="true">T</type>
+					<name>val</name>
+				</parameter>
+			</parameters>
+		</function>
+		 -->
+		<function virt="non-virtual" visibility="public" static="false" const="true"
+					passedBy="value">
+			<name>size</name>
+			<type>size_t</type>
+			<definition>std::deque::size</definition>
+		</function>
+	</class>
+
+	<class protection="public" name="list" fullName="std::list" template="true">
+		<templateparameters>
+			<templateparameter templateType="class" templateDeclaration="T"/>
+		</templateparameters>
+
+		<additionalInfo>
+			<info name="size_type" typeParaPos="1"/>
+			<info name="value_type" typeParaPos="1"/>
+			<info name="pointer" typeParaPos="1" changePassedBy="true" newPassedBy="pointer"/>
+			<info name="const_pointer" typeParaPos="1" changePassedBy="true" newPassedBy="pointer" addConst="true"/>
+		</additionalInfo>
+
+		<includes local="no">list</includes>
+
+		<function virt="non-virtual" visibility="public" static="false" const="false"
+					passedBy="value">
+			<name>list</name>
+			<definition>std::list::list</definition>
+		</function>
+		
+		
+		<function virt="non-virtual" visibility="public" static="false" const="false"
+					passedBy="value">
+			<name>assign</name>
+			<type>void</type>
+			<definition>std::list::assign</definition>
+			<parameters>
+				<parameter passedBy="value">
+					<type const="false">size_t</type>
+					<name>num</name>
+				</parameter>
+				<parameter passedBy="reference">
+					<type const="true">T</type>
+					<name>val</name>
+				</parameter>
+			</parameters>
+		</function>
+		
+		<function virt="non-virtual" visibility="public" static="false" const="false"
+					passedBy="reference">
+			<name>back</name>
+			<type>T</type>
+			<definition>std::list::back</definition>
+		</function>
+		
+		<function virt="non-virtual" visibility="public" static="false" const="false"
+					passedBy="value">
+			<name>clear</name>
+			<type>void</type>
+			<definition>std::list::clear</definition>
+		</function>
+		
+		<function virt="non-virtual" visibility="public" static="false" const="true"
+					passedBy="value">
+			<name>empty</name>
+			<type>bool</type>
+			<definition>std::list::empty</definition>
+		</function>
+		
+		<function virt="non-virtual" visibility="public" static="false" const="false"
+					passedBy="reference">
+			<name>front</name>
+			<type>T</type>
+			<definition>std::list::front</definition>
+		</function>
+		
+		<function virt="non-virtual" visibility="public" static="false" const="true"
+					passedBy="value">
+			<name>max_size</name>
+			<type>size_t</type>
+			<definition>std::list::max_size</definition>
+		</function>
+		
+		<!--
+		<function virt="non-virtual" visibility="public" static="false" const="false"
+					passedBy="value">
+			<name>merge</name>
+			<type>void</type>
+			<definition>std::list::merge</definition>
+			<parameters>
+				<parameter passedBy="reference">
+					<type const="false">list</type>
+					<name>lst</name>
+				</parameter>
+			</parameters>
+		</function>
+		-->
+			
+		<function virt="non-virtual" visibility="public" static="false" const="false"
+					passedBy="value">
+			<name>pop_back</name>
+			<type>void</type>
+			<definition>std::list::pop_back</definition>
+		</function>
+		
+		<function virt="non-virtual" visibility="public" static="false" const="false"
+					passedBy="value">
+			<name>pop_front</name>
+			<type>void</type>
+			<definition>std::list::pop_front</definition>
+		</function>
+		
+		<function virt="non-virtual" visibility="public" static="false" const="false"
+					passedBy="value">
+			<name>push_back</name>
+			<type>void</type>
+			<definition>std::list::push_back</definition>
+			<parameters>
+				<parameter passedBy="reference">
+					<type const="true">T</type>
+					<name>val</name>
+				</parameter>
+			</parameters>
+		</function>
+		
+		<function virt="non-virtual" visibility="public" static="false" const="false"
+					passedBy="value">
+			<name>push_front</name>
+			<type>void</type>
+			<definition>std::list::push_front</definition>
+			<parameters>
+				<parameter passedBy="reference">
+					<type const="true">T</type>
+					<name>val</name>
+				</parameter>
+			</parameters>
+		</function>
+		
+		<function virt="non-virtual" visibility="public" static="false" const="false"
+					passedBy="value">
+			<name>remove</name>
+			<type>void</type>
+			<definition>std::list::remove</definition>
+			<parameters>
+				<parameter passedBy="reference">
+					<type const="true">T</type>
+					<name>val</name>
+				</parameter>
+			</parameters>
+		</function>
+		
+		<!--
+		<function virt="non-virtual" visibility="public" static="false" const="false"
+					passedBy="value">
+			<name>remove_if</name>
+			<type>void</type>
+			<definition>std::list::remove_if</definition>
+			<parameters>
+				<parameter passedBy="value">
+					<type const="false">UnPred</type>
+					<name>pr</name>
+				</parameter>
+			</parameters>
+		</function>
+		-->
+		<!-- uses default c-tor of type parameter
+		<function virt="non-virtual" visibility="public" static="false" const="false"
+					passedBy="value">
+			<name>resize</name>
+			<type>void</type>
+			<definition>std::list::resize</definition>
+			<parameters>
+				<parameter passedBy="value">
+					<type const="false">size_t</type>
+					<name>num</name>
+				</parameter>
+				<parameter passedBy="reference">
+					<type const="false">T</type>
+					<name>val</name>
+				</parameter>
+			</parameters>
+		</function>
+		-->
+		<function virt="non-virtual" visibility="public" static="false" const="false"
+					passedBy="value">
+			<name>reverse</name>
+			<type>void</type>
+			<definition>std::list::reverse</definition>
+		</function>
+		
+		<function virt="non-virtual" visibility="public" static="false" const="true"
+					passedBy="value">
+			<name>size</name>
+			<type>size_t</type>
+			<definition>std::list::size</definition>
+		</function>
+		<!-- uses operator&lt; of type parameter
+		<function virt="non-virtual" visibility="public" static="false" const="false"
+					passedBy="value">
+			<name>sort</name>
+			<type>void</type>
+			<definition>std::list::sort</definition>
+		</function>
+		-->
+		<!--
+		<function virt="non-virtual" visibility="public" static="false" const="false"
+					passedBy="value">
+			<name>swap</name>
+			<type>void</type>
+			<definition>std::list::swap</definition>
+			<parameters>
+				<parameter passedBy="reference">
+					<type const="true">container</type>
+					<name>from</name>
+				</parameter>
+			</parameters>
+		</function>
+		-->
+		
+		<function virt="non-virtual" visibility="public" static="false" const="false"
+					passedBy="value">
+			<name>unique</name>
+			<type>void</type>
+			<definition>std::list::unique</definition>
+		</function>
+	</class>
+
+	<class protection="public" name="priority_queue" fullName="std::priority_queue" template="true">
+		<templateparameters>
+			<templateparameter templateType="class" templateDeclaration="T"/>
+		</templateparameters>
+
+		<additionalInfo>
+			<info name="size_type" typeParaPos="1"/>
+		</additionalInfo>
+
+		<includes local="no">queue</includes>
+
+		<!--
+		<function virt="non-virtual" visibility="public" static="false" const="false"
+					passedBy="value">
+			<name>priority_queue</name>
+			<definition>std::priority_queue::priority_queue</definition>
+			<parameters>
+				<parameter passedBy="reference">
+					<type const="true">Compare</type>
+					<name>cmp</name>
+				</parameter>
+				<parameter passedBy="reference">
+					<type const="true">Container</type>
+					<name>c</name>
+				</parameter>
+			</parameters>
+		</function>
+		-->
+
+		<function virt="non-virtual" visibility="public" static="false" const="true"
+					passedBy="value">
+			<name>empty</name>
+			<type>bool</type>
+			<definition>std::priority_queue::empty</definition>
+		</function>
+		
+		
+		<function virt="non-virtual" visibility="public" static="false" const="false"
+					passedBy="value">
+			<name>pop</name>
+			<type>void</type>
+			<definition>std::priority_queue::pop</definition>
+		</function>
+		
+		<function virt="non-virtual" visibility="public" static="false" const="false"
+					passedBy="value">
+			<name>push</name>
+			<type>void</type>
+			<definition>std::priority_queue::push</definition>
+			<parameters>
+				<parameter passedBy="reference">
+					<type const="true">T</type>
+					<name>val</name>
+				</parameter>
+			</parameters>
+		</function>
+		
+		<function virt="non-virtual" visibility="public" static="false" const="true"
+					passedBy="value">
+			<name>size</name>
+			<type>size_t</type>
+			<definition>std::priority_queue::size</definition>
+		</function>
+
+		<function virt="non-virtual" visibility="public" static="false" const="true"
+					passedBy="reference">
+			<name>top</name>
+			<type const="true">T</type>
+			<definition>std::priority_queue::top</definition>
+		</function>
+	</class>
+
+	<class protection="public" name="queue" fullName="std::queue" template="true">
+		<templateparameters>
+			<templateparameter templateType="class" templateDeclaration="T"/>
+		</templateparameters>
+
+		<additionalInfo>
+			<info name="size_type" typeParaPos="1"/>
+		</additionalInfo>
+
+		<includes local="no">queue</includes>
+
+		<function virt="non-virtual" visibility="public" static="false" const="false"
+					passedBy="value">
+			<name>queue</name>
+			<definition>std::queue::queue</definition>
+		</function>
+		
+		<function virt="non-virtual" visibility="public" static="false" const="false"
+					passedBy="reference">
+			<name>back</name>
+			<type>T</type>
+			<definition>std::queue::back</definition>
+		</function>
+		
+		<function virt="non-virtual" visibility="public" static="false" const="true"
+					passedBy="value">
+			<name>empty</name>
+			<type>bool</type>
+			<definition>std::queue::empty</definition>
+		</function>
+		
+		<function virt="non-virtual" visibility="public" static="false" const="false"
+					passedBy="reference">
+			<name>front</name>
+			<type>T</type>
+			<definition>std::queue::front</definition>
+		</function>
+		
+		<function virt="non-virtual" visibility="public" static="false" const="false"
+					passedBy="value">
+			<name>pop</name>
+			<type>void</type>
+			<definition>std::queue::pop</definition>
+		</function>
+		
+		<function virt="non-virtual" visibility="public" static="false" const="false"
+					passedBy="value">
+			<name>push</name>
+			<type>void</type>
+			<definition>std::queue::push</definition>
+			<parameters>
+				<parameter passedBy="reference">
+					<type const="true">T</type>
+					<name>val</name>
+				</parameter>
+			</parameters>
+		</function>
+		
+		<function virt="non-virtual" visibility="public" static="false" const="true"
+					passedBy="value">
+			<name>size</name>
+			<type>size_t</type>
+			<definition>std::queue::size</definition>
+		</function>
+	</class>
+
+
+	<class protection="public" name="stack" fullName="std::stack" template="true">
+		<templateparameters>
+			<templateparameter templateType="class" templateDeclaration="T"/>
+		</templateparameters>
+
+		<additionalInfo>
+			<info name="size_type" typeParaPos="1"/>
+		</additionalInfo>
+
+		<includes local="no">stack</includes>
+
+		<function virt="non-virtual" visibility="public" static="false" const="false"
+					passedBy="value">
+			<name>stack</name>
+			<definition>std::stack::stack</definition>
+		</function>
+		
+		<function virt="non-virtual" visibility="public" static="false" const="true"
+					passedBy="value">
+			<name>empty</name>
+			<type>bool</type>
+			<definition>std::stack::empty</definition>
+		</function>
+		
+		<function virt="non-virtual" visibility="public" static="false" const="false"
+					passedBy="value">
+			<name>pop</name>
+			<type>void</type>
+			<definition>std::stack::pop</definition>
+		</function>
+		
+		<function virt="non-virtual" visibility="public" static="false" const="false"
+					passedBy="value">
+			<name>push</name>
+			<type>void</type>
+			<definition>std::stack::push</definition>
+			<parameters>
+				<parameter passedBy="reference">
+					<type const="true">T</type>
+					<name>val</name>
+				</parameter>
+			</parameters>
+		</function>
+		
+		<function virt="non-virtual" visibility="public" static="false" const="true"
+					passedBy="value">
+			<name>size</name>
+			<type>size_t</type>
+			<definition>std::stack::size</definition>
+		</function>
+		
+		<function virt="non-virtual" visibility="public" static="false" const="false"
+					passedBy="reference">
+			<name>top</name>
+			<type>T</type>
+			<definition>std::stack::top</definition>
+		</function>
+	</class>
+
+	<class protection="public" name="set" fullName="std::set" template="true">
+		<templateparameters>
+			<templateparameter templateType="class" templateDeclaration="K"/>
+		</templateparameters>
+
+		<additionalInfo>
+			<info name="key_type" typeParaPos="1"/>
+		</additionalInfo>
+
+		<includes local="no">set</includes>
+
+		<function virt="non-virtual" visibility="public" static="false" const="false"
+					passedBy="value">
+			<name>set</name>
+			<definition>std::set::set</definition>
+		</function>
+		
+		<function virt="non-virtual" visibility="public" static="false" const="false"
+					passedBy="value">
+			<name>clear</name>
+			<type>void</type>
+			<definition>std::set::clear</definition>
+		</function>
+		
+		<function virt="non-virtual" visibility="public" static="false" const="false"
+					passedBy="value">
+			<name>count</name>
+			<type>size_t</type>
+			<definition>std::set::count</definition>
+			<parameters>
+				<parameter passedBy="reference">
+					<type const="true">K</type>
+					<name>key</name>
+				</parameter>
+			</parameters>
+		</function>
+		
+		<function virt="non-virtual" visibility="public" static="false" const="true"
+					passedBy="value">
+			<name>empty</name>
+			<type>bool</type>
+			<definition>std::set::empty</definition>
+		</function>
+		
+		<function virt="non-virtual" visibility="public" static="false" const="false"
+					passedBy="value">
+			<name>erase</name>
+			<type>size_t</type>
+			<definition>std::set::erase</definition>
+			<parameters>
+				<parameter passedBy="reference">
+					<type const="true">K</type>
+					<name>key</name>
+				</parameter>
+			</parameters>
+		</function>
+<!-- 
+		<function virt="non-virtual" visibility="public" static="false" const="true"
+					passedBy="value">
+			<name>key_comp</name>
+			<type>key_compare</type>
+			<definition>std::set::key_comp</definition>
+		</function>
+ -->
+		<function virt="non-virtual" visibility="public" static="false" const="true"
+					passedBy="value">
+			<name>max_size</name>
+			<type>size_t</type>
+			<definition>std::set::max_size</definition>
+		</function>
+		
+		<function virt="non-virtual" visibility="public" static="false" const="true"
+					passedBy="value">
+			<name>size</name>
+			<type>size_t</type>
+			<definition>std::set::size</definition>
+		</function>
+		
+		<!--
+		<function virt="non-virtual" visibility="public" static="false" const="false"
+					passedBy="value">
+			<name>swap</name>
+			<type>void</type>
+			<definition>std::set::swap</definition>
+			<parameters>
+				<parameter passedBy="reference">
+					<type const="false">container</type>
+					<name>from</name>
+				</parameter>
+			</parameters>
+		</function>
+		-->
+<!-- 
+		<function virt="non-virtual" visibility="public" static="false" const="true"
+					passedBy="value">
+			<name>value_comp</name>
+			<type>value_compare</type>
+			<definition>std::set::value_comp</definition>
+		</function>
+ -->
+	</class>
+
+	<class protection="public" name="multiset" fullName="std::multiset" template="true">
+		<templateparameters>
+			<templateparameter templateType="class" templateDeclaration="K"/>
+		</templateparameters>
+
+		<additionalInfo>
+			<info name="key_type" typeParaPos="1"/>
+		</additionalInfo>
+
+		<includes local="no">set</includes>
+
+		<function virt="non-virtual" visibility="public" static="false" const="false"
+					passedBy="value">
+			<name>multiset</name>
+			<definition>std::multiset::multiset</definition>
+		</function>
+
+		<function virt="non-virtual" visibility="public" static="false" const="false"
+					passedBy="value">
+			<name>clear</name>
+			<type>void</type>
+			<definition>std::multiset::clear</definition>
+		</function>
+		
+		<function virt="non-virtual" visibility="public" static="false" const="false"
+					passedBy="value">
+			<name>count</name>
+			<type>size_t</type>
+			<definition>std::multiset::count</definition>
+			<parameters>
+				<parameter passedBy="reference">
+					<type const="true">K</type>
+					<name>key</name>
+				</parameter>
+			</parameters>
+		</function>
+		
+		<function virt="non-virtual" visibility="public" static="false" const="true"
+					passedBy="value">
+			<name>empty</name>
+			<type>bool</type>
+			<definition>std::multiset::empty</definition>
+		</function>
+		
+		<function virt="non-virtual" visibility="public" static="false" const="false"
+					passedBy="value">
+			<name>erase</name>
+			<type>size_t</type>
+			<definition>std::multiset::erase</definition>
+			<parameters>
+				<parameter passedBy="reference">
+					<type const="true">K</type>
+					<name>key</name>
+				</parameter>
+			</parameters>
+		</function>
+<!-- 
+		<function virt="non-virtual" visibility="public" static="false" const="true"
+					passedBy="value">
+			<name>key_comp</name>
+			<type>key_compare</type>
+			<definition>std::multiset::key_comp</definition>
+		</function>
+ -->
+		<function virt="non-virtual" visibility="public" static="false" const="true"
+					passedBy="value">
+			<name>max_size</name>
+			<type>size_t</type>
+			<definition>std::multiset::max_size</definition>
+		</function>
+		
+		<function virt="non-virtual" visibility="public" static="false" const="true"
+					passedBy="value">
+			<name>size</name>
+			<type>size_t</type>
+			<definition>std::multiset::size</definition>
+		</function>
+		
+		<!--
+		<function virt="non-virtual" visibility="public" static="false" const="false"
+					passedBy="value">
+			<name>swap</name>
+			<type>void</type>
+			<definition>std::set::swap</definition>
+			<parameters>
+				<parameter passedBy="reference">
+					<type const="true">container</type>
+					<name>from</name>
+				</parameter>
+			</parameters>
+		</function>
+		-->
+<!-- 
+		<function virt="non-virtual" visibility="public" static="false" const="true"
+					passedBy="value">
+			<name>value_comp</name>
+			<type>value_compare</type>
+			<definition>std::multiset::value_comp</definition>
+		</function>
+ -->
+	</class>
+
+	<class protection="public" name="map" fullName="std::map" template="true">
+		<templateparameters>
+			<templateparameter templateType="class" templateDeclaration="K"/>
+			<templateparameter templateType="class" templateDeclaration="V"/>
+		</templateparameters>
+
+		<additionalInfo>
+			<info name="key_type" typeParaPos="1"/>
+			<info name="mapped_type" typeParaPos="2"/>
+		</additionalInfo>
+
+		<includes local="no">map</includes>
+
+		<function virt="non-virtual" visibility="public" static="false" const="false"
+					passedBy="value">
+			<name>map</name>
+			<definition>std::map::map</definition>
+		</function>
+
+		<function virt="non-virtual" visibility="public" static="false" const="false"
+					passedBy="value">
+			<name>clear</name>
+			<type>void</type>
+			<definition>std::map::clear</definition>
+		</function>
+
+		<function virt="non-virtual" visibility="public" static="false" const="false"
+					passedBy="value">
+			<name>count</name>
+			<type>size_t</type>
+			<definition>std::map::count</definition>
+			<parameters>
+				<parameter passedBy="reference">
+					<type const="true">K</type>
+					<name>key</name>
+				</parameter>
+			</parameters>
+		</function>
+
+		<function virt="non-virtual" visibility="public" static="false" const="true"
+					passedBy="value">
+			<name>empty</name>
+			<type>bool</type>
+			<definition>std::map::empty</definition>
+		</function>
+
+		<function virt="non-virtual" visibility="public" static="false" const="false"
+					passedBy="value">
+			<name>erase</name>
+			<type>size_t</type>
+			<definition>std::map::erase</definition>
+			<parameters>
+				<parameter passedBy="reference">
+					<type const="true">K</type>
+					<name>key</name>
+				</parameter>
+			</parameters>
+		</function>
+
+		<function virt="non-virtual" visibility="public" static="false" const="true"
+					passedBy="value">
+			<name>max_size</name>
+			<type>size_t</type>
+			<definition>std::map::max_size</definition>
+		</function>
+
+		<function virt="non-virtual" visibility="public" static="false" const="true"
+					passedBy="value">
+			<name>size</name>
+			<type>size_t</type>
+			<definition>std::map::size</definition>
+		</function>
+
+		<function virt="non-virtual" visibility="public" static="false" const="false"
+					passedBy="reference">
+			<name>get</name>
+			<type>V</type>
+			<definition>std::map::get</definition>
+			<parameters>
+				<parameter passedBy="reference">
+					<type const="true">K</type>
+					<name>key</name>
+				</parameter>
+			</parameters>
+			<jniImplementation>
+				#nl#// parameter conversions
+				#cpp_conversions#
+				#nl#
+				#nl#// cast pointer to C++ object
+				#nl##cpp_class#* #cpp_this# =
+				reinterpret_cast&lt;#cpp_class#*&gt;(#jni_pointer#);
+				#nl#
+				#nl#// call library method
+				#nl##cpp_return_type# #cpp_return_var# = #optional_return_conversion#
+				    (*#cpp_this#)[#cpp_params#]#optional_closing_bracket#;
+				#nl#return #cpp_return#;
+			</jniImplementation>
+		</function>
+
+		<function virt="non-virtual" visibility="public" static="false" const="false"
+					passedBy="value">
+			<name>insert</name>
+			<type>void</type>
+			<definition>std::map::insert</definition>
+			<parameters>
+				<parameter passedBy="reference">
+					<type const="true">K</type>
+					<name>key</name>
+				</parameter>
+				<parameter passedBy="reference">
+					<type const="false">V</type>
+					<name>value</name>
+				</parameter>
+			</parameters>
+			<jniImplementation>
+				#nl#// parameter conversions
+				#cpp_conversions#
+				#nl#
+				#nl#// cast pointer to C++ object
+				#nl##cpp_class#* #cpp_this# =
+				reinterpret_cast&lt;#cpp_class#*&gt;(#jni_pointer#);
+				#nl#
+				#nl#// call library method
+				#nl##cpp_this#->insert(std::make_pair(#cpp_params#));
+			</jniImplementation>
+		</function>
+
+	</class>
+	
+	<class protection="public" name="hash_map" fullName="std::hash_map" template="true">
+		<templateparameters>
+			<templateparameter templateType="class" templateDeclaration="K"/>
+			<templateparameter templateType="class" templateDeclaration="V"/>
+		</templateparameters>
+
+		<additionalInfo>
+			<info name="key_type" typeParaPos="1"/>
+			<info name="mapped_type" typeParaPos="2"/>
+		</additionalInfo>
+
+		<!-- <includes local="no">hash_map</includes> -->
+
+		<function virt="non-virtual" visibility="public" static="false" const="false"
+					passedBy="value">
+			<name>hash_map</name>
+			<definition>std::hash_map::hash_map</definition>
+		</function>
+
+		<function virt="non-virtual" visibility="public" static="false" const="false"
+					passedBy="value">
+			<name>clear</name>
+			<type>void</type>
+			<definition>std::hash_map::clear</definition>
+		</function>
+
+		<function virt="non-virtual" visibility="public" static="false" const="false"
+					passedBy="value">
+			<name>count</name>
+			<type>size_t</type>
+			<definition>std::hash_map::count</definition>
+			<parameters>
+				<parameter passedBy="reference">
+					<type const="true">K</type>
+					<name>key</name>
+				</parameter>
+			</parameters>
+		</function>
+
+		<function virt="non-virtual" visibility="public" static="false" const="true"
+					passedBy="value">
+			<name>empty</name>
+			<type>bool</type>
+			<definition>std::hash_map::empty</definition>
+		</function>
+
+		<function virt="non-virtual" visibility="public" static="false" const="false"
+					passedBy="value">
+			<name>erase</name>
+			<type>size_t</type>
+			<definition>std::hash_map::erase</definition>
+			<parameters>
+				<parameter passedBy="reference">
+					<type const="true">K</type>
+					<name>key</name>
+				</parameter>
+			</parameters>
+		</function>
+
+		<function virt="non-virtual" visibility="public" static="false" const="true"
+					passedBy="value">
+			<name>max_size</name>
+			<type>size_t</type>
+			<definition>std::hash_map::max_size</definition>
+		</function>
+
+		<function virt="non-virtual" visibility="public" static="false" const="true"
+					passedBy="value">
+			<name>size</name>
+			<type>size_t</type>
+			<definition>std::hash_map::size</definition>
+		</function>
+
+		<function virt="non-virtual" visibility="public" static="false" const="false"
+					passedBy="reference">
+			<name>get</name>
+			<type>V</type>
+			<definition>std::hash_map::get</definition>
+			<parameters>
+				<parameter passedBy="reference">
+					<type const="true">K</type>
+					<name>key</name>
+				</parameter>
+			</parameters>
+			<jniImplementation>
+				#nl#// parameter conversions
+				#cpp_conversions#
+				#nl#
+				#nl#// cast pointer to C++ object
+				#nl##cpp_class#* #cpp_this# =
+				reinterpret_cast&lt;#cpp_class#*&gt;(#jni_pointer#);
+				#nl#
+				#nl#// call library method
+				#nl##cpp_return_type# #cpp_return_var# = #optional_return_conversion#
+				    (*#cpp_this#)[#cpp_params#]#optional_closing_bracket#;
+				#nl#return #cpp_return#;
+			</jniImplementation>
+		</function>
+
+		<function virt="non-virtual" visibility="public" static="false" const="false"
+					passedBy="value">
+			<name>insert</name>
+			<type>void</type>
+			<definition>std::hash_map::insert</definition>
+			<parameters>
+				<parameter passedBy="reference">
+					<type const="true">K</type>
+					<name>key</name>
+				</parameter>
+				<parameter passedBy="reference">
+					<type const="false">V</type>
+					<name>value</name>
+				</parameter>
+			</parameters>
+			<jniImplementation>
+				#nl#// parameter conversions
+				#cpp_conversions#
+				#nl#
+				#nl#// cast pointer to C++ object
+				#nl##cpp_class#* #cpp_this# =
+				reinterpret_cast&lt;#cpp_class#*&gt;(#jni_pointer#);
+				#nl#
+				#nl#// call library method
+				#nl##cpp_this#->insert(std::make_pair(#cpp_params#));
+			</jniImplementation>
+		</function>
+
+	</class>
+
+	<class protection="public" name="multimap" fullName="std::multimap" template="true">
+		<templateparameters>
+			<templateparameter templateType="class" templateDeclaration="K"/>
+			<templateparameter templateType="class" templateDeclaration="V"/>
+		</templateparameters>
+
+		<additionalInfo>
+			<info name="key_type" typeParaPos="1"/>
+			<info name="mapped_type" typeParaPos="2"/>
+		</additionalInfo>
+
+		<includes local="no">map</includes>
+
+		<function virt="non-virtual" visibility="public" static="false" const="false"
+					passedBy="value">
+			<name>multimap</name>
+			<definition>std::multimap::multimap</definition>
+		</function>
+
+		<function virt="non-virtual" visibility="public" static="false" const="false"
+					passedBy="value">
+			<name>clear</name>
+			<type>void</type>
+			<definition>std::multimap::clear</definition>
+		</function>
+		
+		<function virt="non-virtual" visibility="public" static="false" const="false"
+					passedBy="value">
+			<name>count</name>
+			<type>size_t</type>
+			<definition>std::multimap::count</definition>
+			<parameters>
+				<parameter passedBy="reference">
+					<type const="true">K</type>
+					<name>key</name>
+				</parameter>
+			</parameters>
+		</function>
+
+		<function virt="non-virtual" visibility="public" static="false" const="true"
+					passedBy="value">
+			<name>empty</name>
+			<type>bool</type>
+			<definition>std::multimap::empty</definition>
+		</function>
+		
+		<function virt="non-virtual" visibility="public" static="false" const="false"
+					passedBy="value">
+			<name>erase</name>
+			<type>size_t</type>
+			<definition>std::multimap::erase</definition>
+			<parameters>
+				<parameter passedBy="reference">
+					<type const="true">K</type>
+					<name>key</name>
+				</parameter>
+			</parameters>
+		</function>
+<!-- 
+		<function virt="non-virtual" visibility="public" static="false" const="true"
+					passedBy="value">
+			<name>key_comp</name>
+			<type>key_compare</type>
+			<definition>std::multiset::key_comp</definition>
+		</function>
+ -->
+		<function virt="non-virtual" visibility="public" static="false" const="true"
+					passedBy="value">
+			<name>max_size</name>
+			<type>size_t</type>
+			<definition>std::multimap::max_size</definition>
+		</function>		
+		
+		<function virt="non-virtual" visibility="public" static="false" const="true"
+					passedBy="value">
+			<name>size</name>
+			<type>size_t</type>
+			<definition>std::multimap::size</definition>
+		</function>
+		
+		<!--
+		<function virt="non-virtual" visibility="public" static="false" const="false"
+					passedBy="value">
+			<name>swap</name>
+			<type>void</type>
+			<definition>std::multiset::swap</definition>
+			<parameters>
+				<parameter passedBy="reference">
+					<type const="true">container</type>
+					<name>from</name>
+				</parameter>
+			</parameters>
+		</function>
+		-->
+<!-- 
+		<function virt="non-virtual" visibility="public" static="false" const="true"
+					passedBy="value">
+			<name>value_comp</name>
+			<type>value_compare</type>
+			<definition>std::multimap::value_comp</definition>
+		</function>
+ -->
+	</class>
+
+	<class protection="public" name="bitset" fullName="std::bitset" template="true">
+		<templateparameters>
+			<templateparameter templateType="class" templateDeclaration="T"/>
+		</templateparameters>
+
+		<includes local="no">bitset</includes>
+
+		<function virt="non-virtual" visibility="public" static="false" const="false"
+					passedBy="value">
+			<name>bitset</name>
+			<definition>std::bitset::bitset</definition>
+		</function>
+
+		<function virt="non-virtual" visibility="public" static="false" const="false"
+					passedBy="value">
+			<name>any</name>
+			<type>bool</type>
+			<definition>std::bitset::bool</definition>
+		</function>
+		
+		<function virt="non-virtual" visibility="public" static="false" const="false"
+					passedBy="value">
+			<name>count</name>
+			<type>size_t</type>
+			<definition>std::bitset::count</definition>
+		</function>
+		
+		<function virt="non-virtual" visibility="public" static="false" const="false"
+					passedBy="value">
+			<name>none</name>
+			<type>bool</type>
+			<definition>std::bitset::none</definition>
+		</function>
+		
+		<function virt="non-virtual" visibility="public" static="false" const="false"
+					passedBy="value">
+			<name>size</name>
+			<type>size_t</type>
+			<definition>std::bitset::size</definition>
+		</function>
+		
+		<function virt="non-virtual" visibility="public" static="false" const="false"
+					passedBy="value">
+			<name>test</name>
+			<type>bool</type>
+			<definition>std::bitset::test</definition>
+			<parameters>
+				<parameter passedBy="value">
+					<type const="false">size_t</type>
+					<name>pos</name>
+				</parameter>
+			</parameters>
+		</function>
+		
+		<function virt="non-virtual" visibility="public" static="false" const="false"
+					passedBy="value">
+			<name>to_string</name>
+			<type>std::string</type>
+			<definition>std::bitset::to_string</definition>
+		</function>
+		
+		<function virt="non-virtual" visibility="public" static="false" const="false"
+					passedBy="value">
+			<name>to_ulong</name>
+			<type>unsigned long</type>
+			<definition>std::bitset::to_ulong</definition>
+		</function>
+	</class>
+
+	<class protection="public" name="pair" fullName="std::pair" template="true">
+		<templateparameters>
+			<templateparameter templateType="class" templateDeclaration="F"/>
+			<templateparameter templateType="class" templateDeclaration="S"/>
+		</templateparameters>
+
+		<includes local="no">map</includes>
+
+		<variable visibility="public" static="false" const="false" passedBy="value">
+            <type>F</type>
+            <definition>F std::pair::first</definition>
+			<name>first</name>
+        </variable>
+
+        <variable visibility="public" static="false" const="false" passedBy="value">
+            <type>S</type>
+            <definition>S std::pair::second</definition>
+			<name>second</name>
+        </variable>
+	</class>
+
+	<class protection="public" name="type_info" fullName="std::type_info">
+		<includes local="no">typeinfo</includes>
+		<function virt="non-virtual" visibility="public" static="false" const="true"
+					passedBy="value">
+			<name>before</name>
+			<type>bool</type>
+			<definition>bool std::type_info::before</definition>
+			<parameters>
+				<parameter passedBy="reference">
+					<type const="true">type_info</type>
+					<name>rhs</name>
+				</parameter>
+			</parameters>
+		</function>
+		<function virt="non-virtual" visibility="public" static="false" const="true"
+					passedBy="pointer">
+			<name>name</name>
+			<type const="true">char</type>
+			<definition>const char * std::type_info::name</definition>
+		</function>
+	</class>
+
+	<class protection="public" name="ostream" fullName="std::ostream">
+		<includes local="no">iostream</includes>
+		<function virt="non-virtual" visibility="public" static="false" const="false"
+					passedBy="value">
+			<name>bad</name>
+			<type>bool</type>
+			<definition>bool std::ostream::bad</definition>
+		</function>
+		<function virt="non-virtual" visibility="public" static="false" const="false"
+					passedBy="value">
+			<name>clear</name>
+			<type>void</type>
+			<definition>void std::ostream::clear</definition>
+		</function>
+		<function virt="non-virtual" visibility="public" static="false" const="false"
+					passedBy="value">
+			<name>eof</name>
+			<type>bool</type>
+			<definition>bool std::ostream::eof</definition>
+		</function>
+		<function virt="non-virtual" visibility="public" static="false" const="false"
+					passedBy="value">
+			<name>fail</name>
+			<type>bool</type>
+			<definition>bool std::ostream::fail</definition>
+		</function>
+		<function virt="non-virtual" visibility="public" static="false" const="false"
+					passedBy="value">
+			<name>fill</name>
+			<type>char</type>
+			<definition>char std::ostream::fill</definition>
+		</function>
+		<function virt="non-virtual" visibility="public" static="false" const="false"
+					passedBy="value">
+			<name>fill</name>
+			<type>char</type>
+			<definition>char std::ostream::fill</definition>
+			<parameters>
+				<parameter passedBy="value">
+					<type>char</type>
+					<name>ch</name>
+				</parameter>
+			</parameters>
+		</function>
+		<function virt="non-virtual" visibility="public" static="false" const="false"
+					passedBy="reference">
+			<name>flush</name>
+			<type>ostream</type>
+			<definition>ostream &amp; std::ostream::flush</definition>
+		</function>
+		<function virt="non-virtual" visibility="public" static="false" const="false"
+					passedBy="value">
+			<name>good</name>
+			<type>bool</type>
+			<definition>bool std::ostream::good</definition>
+		</function>
+		<function virt="non-virtual" visibility="public" static="false" const="false"
+					passedBy="reference">
+			<name>put</name>
+			<type>ostream</type>
+			<definition>ostream &amp; std::ostream::put</definition>
+			<parameters>
+				<parameter passedBy="value">
+					<type>char</type>
+					<name>ch</name>
+				</parameter>
+			</parameters>
+		</function>
+		<function virt="non-virtual" visibility="public" static="true" const="false"
+					passedBy="value">
+			<name>sync_with_stdio</name>
+			<type>bool</type>
+			<definition>bool std::ostream::sync_with_stdio</definition>
+		</function>
+		<function virt="non-virtual" visibility="public" static="true" const="false"
+					passedBy="value">
+			<name>sync_with_stdio</name>
+			<type>bool</type>
+			<definition>bool std::ostream::sync_with_stdio</definition>
+			<parameters>
+				<parameter passedBy="value">
+					<type>bool</type>
+					<name>sync</name>
+				</parameter>
+			</parameters>
+		</function>
+		<function virt="non-virtual" visibility="public" static="false" const="false"
+					passedBy="value">
+			<name>width</name>
+			<type>int</type>
+			<definition>int std::ostream::width</definition>
+		</function>
+		<function virt="non-virtual" visibility="public" static="false" const="false"
+					passedBy="value">
+			<name>width</name>
+			<type>int</type>
+			<definition>int std::ostream::width</definition>
+			<parameters>
+				<parameter passedBy="value">
+					<type>int</type>
+					<name>w</name>
+				</parameter>
+			</parameters>
+		</function>
+	</class>
+
+	<class protection="public" name="ofstream" fullName="std::ofstream">
+		<includes local="no">fstream</includes>
+		<function virt="non-virtual" visibility="public" static="false" const="false"
+					passedBy="value">
+			<name>ofstream</name>
+			<definition>std::ofstream::ofstream</definition>
+		</function>
+		<function virt="non-virtual" visibility="public" static="false" const="false"
+					passedBy="value">
+			<name>ofstream</name>
+			<definition>std::ofstream::ofstream</definition>
+			<parameters>
+				<parameter passedBy="pointer">
+					<type const="true">char</type>
+					<name>filename</name>
+				</parameter>
+			</parameters>
+		</function>
+		<function virt="non-virtual" visibility="public" static="false" const="false"
+					passedBy="value">
+			<name>clear</name>
+			<type>void</type>
+			<definition>void std::ofstream::clear</definition>
+		</function>
+		<function virt="non-virtual" visibility="public" static="false" const="false"
+					passedBy="value">
+			<name>eof</name>
+			<type>bool</type>
+			<definition>bool std::ofstream::eof</definition>
+		</function>
+		<function virt="non-virtual" visibility="public" static="false" const="false"
+					passedBy="value">
+			<name>fail</name>
+			<type>bool</type>
+			<definition>bool std::ofstream::fail</definition>
+		</function>
+		<function virt="non-virtual" visibility="public" static="false" const="false"
+					passedBy="value">
+			<name>fill</name>
+			<type>char</type>
+			<definition>char std::ofstream::fill</definition>
+		</function>
+		<function virt="non-virtual" visibility="public" static="false" const="false"
+					passedBy="value">
+			<name>fill</name>
+			<type>char</type>
+			<definition>char std::ofstream::fill</definition>
+			<parameters>
+				<parameter passedBy="value">
+					<type>char</type>
+					<name>ch</name>
+				</parameter>
+			</parameters>
+		</function>
+		<function virt="non-virtual" visibility="public" static="false" const="false"
+					passedBy="reference">
+			<name>flush</name>
+			<type>ostream</type>
+			<definition>ostream &amp; std::ofstream::flush</definition>
+		</function>
+		<function virt="non-virtual" visibility="public" static="false" const="false"
+					passedBy="value">
+			<name>good</name>
+			<type>bool</type>
+			<definition>bool std::ofstream::good</definition>
+		</function>
+		<function virt="non-virtual" visibility="public" static="false" const="false"
+					passedBy="reference">
+			<name>put</name>
+			<type>ostream</type>
+			<definition>ostream &amp; std::ofstream::put</definition>
+			<parameters>
+				<parameter passedBy="value">
+					<type>char</type>
+					<name>ch</name>
+				</parameter>
+			</parameters>
+		</function>
+		<function virt="non-virtual" visibility="public" static="true" const="false"
+					passedBy="value">
+			<name>sync_with_stdio</name>
+			<type>bool</type>
+			<definition>bool std::ofstream::sync_with_stdio</definition>
+		</function>
+		<function virt="non-virtual" visibility="public" static="true" const="false"
+					passedBy="value">
+			<name>sync_with_stdio</name>
+			<type>bool</type>
+			<definition>bool std::ofstream::sync_with_stdio</definition>
+			<parameters>
+				<parameter passedBy="value">
+					<type>bool</type>
+					<name>sync</name>
+				</parameter>
+			</parameters>
+		</function>
+		<function virt="non-virtual" visibility="public" static="false" const="false"
+					passedBy="value">
+			<name>width</name>
+			<type>int</type>
+			<definition>int std::ofstream::width</definition>
+		</function>
+		<function virt="non-virtual" visibility="public" static="false" const="false"
+					passedBy="value">
+			<name>width</name>
+			<type>int</type>
+			<definition>int std::ofstream::width</definition>
+			<parameters>
+				<parameter passedBy="value">
+					<type>int</type>
+					<name>w</name>
+				</parameter>
+			</parameters>
+		</function>
+		<function virt="non-virtual" visibility="public" static="false" const="false"
+					passedBy="value">
+			<name>is_open</name>
+			<type>bool</type>
+			<definition>int std::ofstream::is_open</definition>
+		</function>
+		<function virt="non-virtual" visibility="public" static="false" const="false"
+					passedBy="value">
+			<name>close</name>
+			<type>void</type>
+			<definition>int std::ofstream::close</definition>
+		</function>
+		<function virt="non-virtual" visibility="public" static="false" const="false"
+					passedBy="value">
+			<name>open</name>
+			<type>void</type>
+			<definition>int std::ofstream::open</definition>
+			<parameters>
+				<parameter passedBy="pointer">
+					<type const="true">char</type>
+					<name>filename</name>
+				</parameter>
+			</parameters>
+		</function>
+	</class>
+
+	<class protection="public" name="istream" fullName="std::istream">
+		<includes local="no">iostream</includes>
+		<function virt="non-virtual" visibility="public" static="false" const="false"
+					passedBy="value">
+			<name>bad</name>
+			<type>bool</type>
+			<definition>bool std::istream::bad</definition>
+		</function>
+		<function virt="non-virtual" visibility="public" static="false" const="false"
+					passedBy="value">
+			<name>clear</name>
+			<type>void</type>
+			<definition>void std::istream::clear</definition>
+		</function>
+		<function virt="non-virtual" visibility="public" static="false" const="false"
+					passedBy="value">
+			<name>eof</name>
+			<type>bool</type>
+			<definition>bool std::istream::eof</definition>
+		</function>
+		<function virt="non-virtual" visibility="public" static="false" const="false"
+					passedBy="value">
+			<name>fail</name>
+			<type>bool</type>
+			<definition>bool std::istream::fail</definition>
+		</function>
+		<function virt="non-virtual" visibility="public" static="false" const="false"
+					passedBy="value">
+			<name>fill</name>
+			<type>char</type>
+			<definition>char std::istream::fill</definition>
+		</function>
+		<function virt="non-virtual" visibility="public" static="false" const="false"
+					passedBy="value">
+			<name>fill</name>
+			<type>char</type>
+			<definition>char std::istream::fill</definition>
+			<parameters>
+				<parameter passedBy="value">
+					<type>char</type>
+					<name>ch</name>
+				</parameter>
+			</parameters>
+		</function>
+		<function virt="non-virtual" visibility="public" static="false" const="false"
+					passedBy="value">
+			<name>good</name>
+			<type>bool</type>
+			<definition>bool std::istream::good</definition>
+		</function>
+		<function virt="non-virtual" visibility="public" static="true" const="false"
+					passedBy="value">
+			<name>sync_with_stdio</name>
+			<type>bool</type>
+			<definition>bool std::istream::sync_with_stdio</definition>
+		</function>
+		<function virt="non-virtual" visibility="public" static="true" const="false"
+					passedBy="value">
+			<name>sync_with_stdio</name>
+			<type>bool</type>
+			<definition>bool std::istream::sync_with_stdio</definition>
+			<parameters>
+				<parameter passedBy="value">
+					<type>bool</type>
+					<name>sync</name>
+				</parameter>
+			</parameters>
+		</function>
+		<function virt="non-virtual" visibility="public" static="false" const="false"
+					passedBy="value">
+			<name>width</name>
+			<type>int</type>
+			<definition>int std::istream::width</definition>
+		</function>
+		<function virt="non-virtual" visibility="public" static="false" const="false"
+					passedBy="value">
+			<name>width</name>
+			<type>int</type>
+			<definition>int std::istream::width</definition>
+			<parameters>
+				<parameter passedBy="value">
+					<type>int</type>
+					<name>w</name>
+				</parameter>
+			</parameters>
+		</function>
+		<function virt="non-virtual" visibility="public" static="false" const="false"
+					passedBy="reference">
+			<name>get</name>
+			<type>istream</type>
+			<definition>int std::istream::get</definition>
+			<parameters>
+				<parameter passedBy="reference">
+					<type>char</type>
+					<name>c</name>
+				</parameter>
+			</parameters>
+		</function>
+	</class>
+
+	<class protection="public" name="ifstream" fullName="std::ifstream">
+		<includes local="no">fstream</includes>
+		<function virt="non-virtual" visibility="public" static="false" const="false"
+					passedBy="value">
+			<name>ifstream</name>
+			<definition>std::ifstream::ifstream</definition>
+		</function>
+		<function virt="non-virtual" visibility="public" static="false" const="false"
+					passedBy="value">
+			<name>ifstream</name>
+			<definition>std::ifstream::ifstream</definition>
+			<parameters>
+				<parameter passedBy="pointer">
+					<type const="true">char</type>
+					<name>filename</name>
+				</parameter>
+			</parameters>
+		</function>
+		<function virt="non-virtual" visibility="public" static="false" const="false"
+					passedBy="value">
+			<name>clear</name>
+			<type>void</type>
+			<definition>void std::ifstream::clear</definition>
+		</function>
+		<function virt="non-virtual" visibility="public" static="false" const="false"
+					passedBy="value">
+			<name>eof</name>
+			<type>bool</type>
+			<definition>bool std::ifstream::eof</definition>
+		</function>
+		<function virt="non-virtual" visibility="public" static="false" const="false"
+					passedBy="value">
+			<name>fail</name>
+			<type>bool</type>
+			<definition>bool std::ifstream::fail</definition>
+		</function>
+		<function virt="non-virtual" visibility="public" static="false" const="false"
+					passedBy="value">
+			<name>fill</name>
+			<type>char</type>
+			<definition>char std::ifstream::fill</definition>
+		</function>
+		<function virt="non-virtual" visibility="public" static="false" const="false"
+					passedBy="value">
+			<name>fill</name>
+			<type>char</type>
+			<definition>char std::ifstream::fill</definition>
+			<parameters>
+				<parameter passedBy="value">
+					<type>char</type>
+					<name>ch</name>
+				</parameter>
+			</parameters>
+		</function>
+		<function virt="non-virtual" visibility="public" static="false" const="false"
+					passedBy="value">
+			<name>good</name>
+			<type>bool</type>
+			<definition>bool std::ifstream::good</definition>
+		</function>
+		<function virt="non-virtual" visibility="public" static="true" const="false"
+					passedBy="value">
+			<name>sync_with_stdio</name>
+			<type>bool</type>
+			<definition>bool std::ifstream::sync_with_stdio</definition>
+		</function>
+		<function virt="non-virtual" visibility="public" static="true" const="false"
+					passedBy="value">
+			<name>sync_with_stdio</name>
+			<type>bool</type>
+			<definition>bool std::ifstream::sync_with_stdio</definition>
+			<parameters>
+				<parameter passedBy="value">
+					<type>bool</type>
+					<name>sync</name>
+				</parameter>
+			</parameters>
+		</function>
+		<function virt="non-virtual" visibility="public" static="false" const="false"
+					passedBy="value">
+			<name>width</name>
+			<type>int</type>
+			<definition>int std::ifstream::width</definition>
+		</function>
+		<function virt="non-virtual" visibility="public" static="false" const="false"
+					passedBy="value">
+			<name>width</name>
+			<type>int</type>
+			<definition>int std::ifstream::width</definition>
+			<parameters>
+				<parameter passedBy="value">
+					<type>int</type>
+					<name>w</name>
+				</parameter>
+			</parameters>
+		</function>
+		<function virt="non-virtual" visibility="public" static="false" const="false"
+					passedBy="value">
+			<name>is_open</name>
+			<type>bool</type>
+			<definition>int std::ifstream::is_open</definition>
+		</function>
+		<function virt="non-virtual" visibility="public" static="false" const="false"
+					passedBy="value">
+			<name>close</name>
+			<type>void</type>
+			<definition>int std::ifstream::close</definition>
+		</function>
+		<function virt="non-virtual" visibility="public" static="false" const="false"
+					passedBy="value">
+			<name>open</name>
+			<type>void</type>
+			<definition>int std::ifstream::open</definition>
+			<parameters>
+				<parameter passedBy="pointer">
+					<type const="true">char</type>
+					<name>filename</name>
+				</parameter>
+			</parameters>
+		</function>
+		<function virt="non-virtual" visibility="public" static="false" const="false"
+					passedBy="reference">
+			<name>get</name>
+			<type>istream</type>
+			<definition>int std::ifstream::get</definition>
+			<parameters>
+				<parameter passedBy="reference">
+					<type>char</type>
+					<name>c</name>
+				</parameter>
+			</parameters>
+		</function>
+	</class>
+
+	<class protection="public" name="ios" fullName="std::ios">
+		<enumeration protection="public" name="fmtflags" fullName="std::ios::fmtflags">
+               <enum name="boolalpha"/>
+               <enum name="showbase"/>
+               <enum name="showpoint"/>
+               <enum name="showpos"/>
+               <enum name="skipws"/>
+               <enum name="unitbuf"/>
+               <enum name="uppercase"/>
+               <enum name="dec"/>
+               <enum name="hex"/>
+               <enum name="oct"/>
+               <enum name="fixed"/>
+               <enum name="scientific"/>
+               <enum name="internal"/>
+               <enum name="left"/>
+               <enum name="right"/>
+               <includes>ios</includes>
+        </enumeration>
+	</class>
+
+	<class protection="public" name="basic_string" fullName="std::basic_string" template="true">
+		<templateparameters>
+			<templateparameter templateType="class" templateDeclaration="T"/>
+		</templateparameters>
+	</class>
+
+	<class protection="public" name="less" fullName="std::less" template="true">
+		<templateparameters>
+			<templateparameter templateType="class" templateDeclaration="T"/>
+		</templateparameters>
+	</class>
+
+	<class protection="public" name="ostringstream" fullName="std::ostringstream">
+		<!-- 
+		<function virt="non-virtual" visibility="private" static="false" const="false"
+					passedBy="value">
+			<name>ostringstream</name>
+			<definition>std::ostringstream::ostringstream</definition>
+			<parameters>
+				<parameter passedBy="reference">
+					<type const="true">std::string</type>
+					<name>str</name>
+				</parameter>
+				<parameter passedBy="value">
+					<type const="false">std::ios_base::openmode</type>
+					<name>which</name>
+				</parameter>
+			</parameters>
+		</function>
+		 -->
+		<!-- 
+		<function virt="non-virtual" visibility="public" static="false" const="true"
+					passedBy="value">
+			<name>str</name>
+			<type>std::string</type>
+			<definition>std::ostringstream::str</definition>
+		</function>
+		 -->
+	</class>
+
+	<class protection="public" name="istringstream" fullName="std::istringstream">
+		<!-- 
+		<function virt="non-virtual" visibility="private" static="false" const="false"
+					passedBy="value">
+			<name>istringstream</name>
+			<definition>std::istringstream::istringstream</definition>
+			<parameters>
+				<parameter passedBy="reference">
+					<type const="true">std::string</type>
+					<name>str</name>
+				</parameter>
+				<parameter passedBy="value">
+					<type const="false">std::ios_base::openmode</type>
+					<name>which</name>
+				</parameter>
+			</parameters>
+		</function>
+		 -->
+		<!-- 
+		<function virt="non-virtual" visibility="public" static="false" const="true"
+					passedBy="value">
+			<name>str</name>
+			<type>std::string</type>
+			<definition>std::istringstream::str</definition>
+		</function>
+		 -->
+	</class>
+
+<!-- 
+	<class protection="public" name="stringstream" fullName="std::stringstream">
+		<function virt="non-virtual" visibility="public" static="false" const="false"
+					passedBy="value">
+			<name>stringstream</name>
+			<definition>std::stringstream::stringstream</definition>
+		</function>
+		<function virt="non-virtual" visibility="public" static="false" const="true"
+					passedBy="value">
+			<name>str</name>
+			<type>std::string</type>
+			<definition>std::stringstream::str</definition>
+		</function>
+	</class>
+ -->
+
+	<class protection="public" name="streambuf" fullName="std::streambuf">
+	</class>
+
+	<class protection="public" name="stringbuf" fullName="std::stringbuf">
+	</class>
+
+	<class protection="public" name="filebuf" fullName="std::filebuf">
+	</class>
+
+<!-- 
+	<class protection="public" name="fstream" fullName="std::fstream">
+	</class>
+ -->
+<!-- 
+	<class protection="public" name="iostream" fullName="std::iostream">
+	</class>
+ -->
+	<class protection="public" name="ios_base" fullName="std::ios_base">
+		<enumeration protection="public" name="openmode" fullName="std::ios_base::openmode">
+			<enum name="app"/>
+			<enum name="ate"/>
+			<enum name="binary"/>
+			<enum name="in"/>
+			<enum name="out"/>
+			<enum name="trunc"/>
+			<includes>ios</includes>
+        </enumeration>
+	</class>
+
+</namespace>
+
+
+<namespace name="stdext" fullName="stdext">
+
+	<class protection="public" name="hash_compare" fullName="stdext::hash_compare" template="true">
+		<templateparameters>
+			<templateparameter templateType="class" templateDeclaration="T"/>
+			<templateparameter templateType="class" templateDeclaration="U"/>
+		</templateparameters>
+	</class>
+
+	<class protection="public" name="hash_map" fullName="stdext::hash_map" template="true">
+		<templateparameters>
+			<templateparameter templateType="class" templateDeclaration="K"/>
+			<templateparameter templateType="class" templateDeclaration="V"/>
+		</templateparameters>
+
+		<additionalInfo>
+			<info name="key_type" typeParaPos="1"/>
+			<info name="mapped_type" typeParaPos="2"/>
+		</additionalInfo>
+	</class>
+
+</namespace>

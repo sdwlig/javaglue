@@ -1,0 +1,15 @@
+#!/bin/bash
+
+JG=$1;shift
+if [ "$JG" = "" ]; then JG="."; fi
+JG=`cd $JG;/bin/pwd`
+BUILD=$1;shift
+if [ "$BUILD" = "" ]; then BUILD=${JG}/build; else
+  BUILD=`cd $BUILD;/bin/pwd`
+fi
+echo JG: ${JG} BUILD: ${BUILD}
+
+# Hack of a test:
+
+env PATH=$BUILD:$PATH java -Djava.library.path=${BUILD} -cp ${JG}/extern/rhino/js.jar:${BUILD}/app.jar:${BUILD}/jg.jar org.mozilla.javascript.tools.shell.Main -e \
+'t = new org.javaglue.test(); print(t); t.setString("Hi"); p = t.getCString(); s = t.toString(p); print(s);'

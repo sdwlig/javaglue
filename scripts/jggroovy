@@ -1,0 +1,31 @@
+#!/bin/bash
+# JavaGlue Groovy run:
+
+if [ "$VERBOSE" = 1 ]; then set -xv; fi
+JG=`dirname $0`
+JG=`cd $JG/..;/bin/pwd`
+if [ "$1" = "" ]; then echo Usage: jggroovy buildDir groovyScript \| -e 'script'; exit 1; fi
+BUILD=$1; shift
+BUILD=`cd $BUILD;/bin/pwd`
+
+RG="`cd ${JG}/extern/groovy/bin;/bin/pwd`"
+RJ=""
+JARS=`cd ${BUILD};for x in *.jar;do echo -n :${BUILD}/$x;done`
+JARS=`echo ${JARS}|sed -e 's/^://'`
+CP=:${BUILD}/lclasses:${BUILD}/aclasses
+
+# echo JG:${JG} BUILD:${BUILD} RJ:${RJ} JARS:${JARS}
+
+export CLASSPATH=.:${RJ}${JARS}${CP}  JAVA_OPTS=-Djava.library.path=${BUILD}
+if [ "$1" == "-e" ]; then 
+  shift 1
+  env PATH=$BUILD:.:$PATH ${RG}/groovy -e "$@"
+else
+  env PATH=$BUILD:.:$PATH ${RG}/groovy $@
+fi
+
+# echo env PATH=$BUILD:$PATH java -Djava.library.path=${BUILD} -cp ${RJ}${JARS} org.mozilla.javascript.tools.shell.Main $@
+
+
+#-e \
+#'t = new org.javaglue.test(); print(t); t.setString("Hi"); p = t.getCString(); s = t.toString(p); print(s);'

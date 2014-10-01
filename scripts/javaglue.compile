@@ -1,0 +1,36 @@
+#!/bin/bash -e
+# javaglue.compile applibname buildDir includesString [additional object or shared libs]
+
+if [ "$2" == "" ]; then echo Usage: javaglue.compile applibname buildDir includesString [additional object or shared libs]; exit 1; fi
+if [ "$VERBOSE" = 1 ]; then set -xv; fi
+APPLIB=$1; shift
+BUILD=$1; shift
+BUILD=`cd $BUILD;/bin/pwd`
+INCLUDES=$1; if(( $# )); then shift; fi
+
+sys=`uname -s`
+LIBSO="so"
+if [ "$sys" = "Darwin" ]; then
+   export JAVA_HOME=`/usr/libexec/java_home`
+   JAVA_INC=${JAVA_HOME}/include
+   JAVA_INC2="${JAVA_HOME}/include/darwin"
+   LIBSO=dylib
+   CPPFLAGS="-fPIC -std=gnu++11"
+fi
+if [ "$sys" = "Linux" ]; then
+   if [ "$JAVA_HOME" = "" ]; then export JAVA_HOME=$(readlink -f /usr/bin/java | sed "s:jre/bin/java::"); fi
+   JAVA_INC=${JAVA_HOME}/include
+   JAVA_INC2="${JAVA_HOME}/include/linux"
+   LIBSO=so
+   CPPFLAGS="-fPIC -std=gnu++11"
+fi
+
+if [ ! -d "${BUILD}/objs" ]; then mkdir -p ${BUILD}/objs; fi
+CPPFILES=`find ${BUILD}/cpp/src ${BUILD}/inputfiles -name '*.cpp' -o -name '*.c'`
+ADIRS=`find ${BUILD}/inputfiles ${BUILD}/cpp/include -type d|while read x;do echo -I${x};done`
+
+echo INCLUDES: ${INCLUDES}
+echo "(cd ${BUILD}/objs;c++ -DJAVAGLUE ${CPPFLAGS} ${INCLUDES} -c ${ADIRS} ${CPPFILES})"
+(cd ${BUILD}/objs;c++ -DJAVAGLUE=1 ${CPPFLAGS} ${INCLUDES} -c ${ADIRS} ${CPPFILES})
+
+(cd ${BUILD};gcc -shared -o lib${APPLIB}.${LIBSO} ${BUILD}/objs/*.o  -lstdc++ $@)

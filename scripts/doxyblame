@@ -1,0 +1,19 @@
+#!/bin/bash
+
+git ls-files $@ | egrep -v '^unused/'|egrep -iv '[.](png|gif|jpg|doc|docx|pdf|ico|tif|bmp|axm|bin|dll|so|lib|a|o|class|zip|exe|mexw64|mat|p|fig|git|vcxproj|vcxproj.filters|gz|bz2|xz|mexw32|mexglx|mexmac|mexmaci|mex|suo|sln|ncb|exp|xls|xlsx|sdw|wcg|keystore|rc|piInteractive|pical|pch|res|obj|dox|idb|pdb|m|mexmaci64|oct)$' | egrep -v proto/opencl_experiment/data_decode | \
+  grep -v ' '| while read path; do
+    export dir=`dirname ${path}` file=`basename ${path}`
+    echo ${dir}/${file}
+    (cd ${dir};
+      (list=`git blame ${file}|sed -e 's/^[^(]* (//' -e 's/\([a-zA-Z ]*\) 20[012][0-9]-.*/\1/'|sort |uniq -c|sort -nr 2>/dev/null`
+      if [ ! -z "$list" ]; then
+        echo '/// @file  ' ${file}
+	echo '/// @author' ${list}
+        echo '/// @brief ' ${file} Lines changed by: ${list}
+	echo
+        # echo -n '/// \file' ${file};echo ' \note Lines changed by:' ${list}'.' #; echo ' */'
+      fi
+      ) >>blame.dox
+    )
+  done
+

@@ -1,0 +1,26 @@
+#!/bin/bash
+# JavaGlue Javascript run:
+
+if [ "$VERBOSE" = 1 ]; then set -xv; fi
+JG=`dirname $0`
+JG=`cd $JG/..;/bin/pwd`
+BUILD=$1; shift
+BUILD=`cd $BUILD;/bin/pwd`
+
+RJ="`cd ${JG}/extern/rhino;/bin/pwd`/js.jar"
+JARS=`cd ${BUILD};for x in *.jar;do echo -n :${BUILD}/$x;done`
+
+# echo JG:${JG} BUILD:${BUILD} RJ:${RJ} JARS:${JARS}
+
+if [ "$1" == "-e" ]; then 
+  shift 1
+  $JGEXEC env PATH=$BUILD:$PATH java -Djava.library.path=${BUILD} -cp ${RJ}${JARS} org.mozilla.javascript.tools.shell.Main -e "$@"
+else
+  $JGEXEC env PATH=$BUILD:$PATH java -Djava.library.path=${BUILD} -cp ${RJ}${JARS} org.mozilla.javascript.tools.shell.Main $@
+fi
+
+# echo env PATH=$BUILD:$PATH java -Djava.library.path=${BUILD} -cp ${RJ}${JARS} org.mozilla.javascript.tools.shell.Main $@
+
+
+#-e \
+#'t = new org.javaglue.test(); print(t); t.setString("Hi"); p = t.getCString(); s = t.toString(p); print(s);'

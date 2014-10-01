@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE AntProject []>
+
+<!--
+	This source file is part of XBiG
+		(XSLT Bindings Generator)
+	For the latest info, see http://sourceforge.net/projects/javaglue
+	
+	Copyright (c) 2006 The XBiG Development Team
+	Also see acknowledgements in Readme.html
+	
+	This program is free software; you can redistribute it and/or modify it under
+	the terms of the GNU Lesser General Public License as published by the Free Software
+	Foundation; either version 2 of the License, or (at your option) any later
+	version.
+	
+	This program is distributed in the hope that it will be useful, but WITHOUT
+	ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+	FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details.
+	
+	You should have received a copy of the GNU Lesser General Public License along with
+	this program; if not, write to the Free Software Foundation, Inc., 59 Temple
+	Place - Suite 330, Boston, MA 02111-1307, USA, or go to
+	http://www.gnu.org/copyleft/lesser.txt.
+	
+	Author: Frank Bielig
+-->
+
+<!-- 
+	Definition of some default properties, which will be needed in 
+	many propjects
+-->
+
+<project name="config.base" default="echo-props" basedir="../../..">
+
+	<property name="dir.top" location="${basedir}" />
+	<property name="dir.prj.base" value="${dir.top}" />
+	<property name="dir.prj.src" value="${dir.prj.base}/src" />
+	<property name="dir.prj.doc" value="${dir.prj.base}/doc" />
+
+	<property name="dir.prj.src.ant" value="${dir.prj.src}/ant" />
+	<property name="dir.prj.src.ant.jar" value="${dir.prj.src.ant}/jar" />	
+	<property name="dir.prj.src.c" value="${dir.prj.src}/c" />
+	<property name="dir.prj.src.doxygen" value="${dir.prj.src}/doxygen" />
+	<property name="dir.prj.src.java" value="${dir.prj.src}/java" />
+	<property name="dir.prj.src.xsl" value="${dir.prj.src}/xsl" />
+	<property name="dir.prj.src.xsltdoc" value="${dir.prj.src}/xsltdoc" />
+
+	<property name="dir.cur" value="." />
+	<property name="dir.cur.etc" value="${dir.cur}/etc" />
+	<property name="dir.cur.doc" value="${dir.cur}/doc" />
+<!--	<property name="dir.cur.build" value="${dir.cur}/build" /> -->
+	<property name="dir.cur.build" value="${dir.build}" />
+	<property name="dir.cur.src" value="${dir.cur}/src" />
+	
+    <target name="init">
+    
+    </target>
+
+	<target name="echo-props">
+	    <echo message="Base Configuration:" />
+		<echo message="project base dir:           ${dir.prj.base}" />
+		<echo message="project source dir:         ${dir.prj.src}" />
+		<echo message="project Ant source dir:     ${dir.prj.src.ant}" />
+		<echo message="project C source dir:       ${dir.prj.src.c}" />
+		<echo message="project Doxygen source dir: ${dir.prj.src.doxygen}" />
+		<echo message="project Java source dir:    ${dir.prj.src.java}" />
+		<echo message="project XSL source dir:     ${dir.prj.src.xsl}" />
+	</target>
+
+</project>

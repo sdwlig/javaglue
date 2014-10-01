@@ -1,0 +1,30 @@
+<ignore_list>
+  <!--- internal ignore classes -->
+  <item withoutAnyMethods="true">proj::strings::tokens_t</item>
+
+  <!--- item withoutAnyMethods="true"></item>  
+  <item withoutAnyMethods="true"></item>  
+  <item withoutAnyMethods="true"></item>  
+  <item withoutAnyMethods="true"></item>  
+  <item withoutAnyMethods="true"></item>  
+  <item withoutAnyMethods="true"></item -->
+
+  <!--- standard library classes -->
+  <item>std::ios_base</item>
+  <item>std::ifstream</item>
+  <item>std::istream</item>
+  <item>std::ofstream</item>
+  <item>std::ostream</item>
+  <item>std::istringstream</item>
+  <item>std::ios</item>
+  <item>std::streambuf</item>
+  <item>std::ostringstream</item>
+  <item>std::stringbuf</item>
+  <item>std::filebuf</item>
+  <item>std::typeinfo</item>
+  <item>std::type_info</item>
+
+  <!-- stl wrapper -->
+  <function>Ogre::TangentSpaceCalc::IndexRemapList::remove</function>
+  <function>Ogre::TangentSpaceCalc::IndexRemapList::unique</function>
+</ignore_list>

@@ -1,0 +1,28 @@
+#!/bin/bash -e
+# Set's up NDK build in copied cpp directory.
+
+find * -type f -name '*.c' -o -name '*.cpp' >files
+find include -type d >includes
+export FILES=`cat files` INCLUDES=`cat includes`
+
+if [ -z Android.mk ]; then rm Android.mk; fi
+if [ ! -f Android.mk ]; then cat >Android.mk <<EOF
+LOCAL_PATH := \$(call my-dir)
+
+include \$(CLEAR_VARS)
+
+LOCAL_LDLIBS := -llog
+
+LOCAL_MODULE    := app
+LOCAL_SRC_FILES := FILES
+LOCAL_C_INCLUDES += INCLUDES
+
+include $(BUILD_SHARED_LIBRARY)
+EOF
+fi
+# cat Android.mk.orig
+cp Android.mk Android.mk.orig
+exit 0
+sed -e "s@ FILES@${FILES//[$'\t\r\n']}@" -e "s@ INCLUDES@${INCLUDES//[$'\t\r\n']}@" <Android.mk.orig >Android.mk
+cat Android.mk
+

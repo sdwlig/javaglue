@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE AntProject []>
+
+<!--
+	This source file is part of XBiG
+		(XSLT Bindings Generator)
+	For the latest info, see http://sourceforge.net/projects/javaglue
+	
+	Copyright (c) 2006 The XBiG Development Team
+	Also see acknowledgements in Readme.html
+	
+	This program is free software; you can redistribute it and/or modify it under
+	the terms of the GNU Lesser General Public License as published by the Free Software
+	Foundation; either version 2 of the License, or (at your option) any later
+	version.
+	
+	This program is distributed in the hope that it will be useful, but WITHOUT
+	ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+	FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details.
+	
+	You should have received a copy of the GNU Lesser General Public License along with
+	this program; if not, write to the Free Software Foundation, Inc., 59 Temple
+	Place - Suite 330, Boston, MA 02111-1307, USA, or go to
+	http://www.gnu.org/copyleft/lesser.txt.
+	
+	Author: Frank Bielig
+-->
+
+<!-- 
+	Definition of some default properties, which will be needed in 
+	many propjects
+-->
+
+<project name="config.cpp" default="echo-props" basedir="../../..">
+
+	<import file="config_base.xml" />
+
+	<property name="cpp.compiler" value="gcc" />
+	<property name="cpp.platform" value="linux" />
+	<property name="cpp.api" value="default" />
+	<property name="cpp.debug" value="false" />
+	<property name="cpp.tasks" value="cpptasks.jar" />
+
+	<property name="dir.cpp.base" value="${dir.cur}" />
+
+	<property name="dir.cpp.inc" value="${dir.cpp.base}/include" />
+
+	<property name="dir.cpp.src" value="${dir.cpp.base}/src" />
+	<property name="dir.cpp.src.lib" value="${dir.cpp.src}/lib" />
+	<property name="dir.cpp.src.test" value="${dir.cpp.src}/test" />
+	<property name="dir.cpp.build" value="${dir.cur.build}" />
+
+	<target name="cpp-pre-init">
+		<condition property="cpp.is-windows">
+			<os family="windows" />
+		</condition>
+		<condition property="cpp.is-linux">
+			<equals arg1="${cpp.platform}" arg2="linux" />
+		</condition>
+		<condition property="cpp.is-debug">
+			<isTrue value="${cpp.debug}" />
+		</condition>
+		<condition property="cpp.use-msvc">
+			<equals arg1="${cpp.compiler}" arg2="msvc" />
+		</condition>
+		<condition property="cpp.use-gcc">
+			<or>
+				<equals arg1="${cpp.compiler}" arg2="gcc" />
+				<equals arg1="${cpp.compiler}" arg2="g++" />
+			</or>
+		</condition>
+		<condition property="cpp.use-bcc">
+			<equals arg1="${cpp.compiler}" arg2="bcc" />
+		</condition>
+		<condition property="cpp.use-icl">
+			<equals arg1="${cpp.compiler}" arg2="icl" />
+		</condition>
+		<condition property="cpp.use-ecl">
+			<equals arg1="${cpp.compiler}" arg2="ecl" />
+		</condition>
+		<condition property="cpp.use-icc">
+			<equals arg1="${cpp.compiler}" arg2="icc" />
+		</condition>
+		<condition property="cpp.use-ecc">
+			<equals arg1="${cpp.compiler}" arg2="ecc" />
+		</condition>
+		<condition property="cpp.use-CC">
+			<equals arg1="${cpp.compiler}" arg2="CC" />
+		</condition>
+		<condition property="cpp.use-xlC">
+			<equals arg1="${cpp.compiler}" arg2="xlC" />
+		</condition>
+
+		<condition property="cpp.is-win32">
+			<or>
+				<equals arg1="${cpp.api}" arg2="win32" />
+				<and>
+					<equals arg1="${cpp.api}" arg2="default" />
+					<isset property="cpp.is-windows" />
+				</and>
+			</or>
+		</condition>
+
+		<property name="dir.cpp.build.platform"
+			value="${dir.cpp.build}/${cpp.platform}" />
+		<property name="dir.cpp.build.compiler"
+			value="${dir.cpp.build.platform}/${cpp.compiler}" />
+
+	</target>
+
+	<target name="cpp-debug-init" depends="cpp-pre-init, cpp-release-init" if="cpp.is-debug">
+		<property name="cpp.compiler.config" value="debug" />
+	</target>
+
+	<target name="cpp-release-init" depends="cpp-pre-init"
+		unless="cpp.is-debug">
+		<property name="cpp.compiler.config" value="release" />
+	</target>
+
+	<target name="cpp-win-debug-init" depends="cpp-pre-init"
+		if="cpp.is-debug">
+	</target>
+
+	<target name="cpp-win-release-init" depends="cpp-pre-init"
+		unless="cpp.is-debug">
+	</target>
+
+	<target name="cpp-win-init" depends="cpp-win-debug-init,cpp-win-release-init"
+		if="cpp.is-windows">
+	</target>
+
+	<target name="cpp-linux-debug-init" depends="cpp-pre-init"
+		if="cpp.is-debug">
+	</target>
+
+	<target name="cpp-linux-release-init" depends="cpp-pre-init"
+		unless="cpp.is-debug">
+	</target>
+
+	<target name="cpp-linux-init"
+		depends="cpp-linux-debug-init,cpp-linux-release-init" if="cpp.is-linux">
+	</target>
+
+
+	<target name="init" depends="config.base.init,cpp-debug-init,cpp-win-init,cpp-linux-init">
+		<property name="dir.cpp.build.config"
+			value="${dir.cpp.build.compiler}/${cpp.compiler.config}" />
+	</target>
+
+
+	<target name="echo-props" depends="init, config.base.echo-props">
+		<echo message="C++ Configuration:" />
+		<echo message="C++ base dir:           ${dir.cpp.base}" />
+		<echo message="C++ include dir:        ${dir.cpp.inc}" />
+		<echo message="C++ build dir:          ${dir.cpp.build}" />
+
+		<echo message="C++ compiler:           ${cpp.compiler}" />
+		<echo message="C++ platform:           ${cpp.platform}" />
+		<echo message="C++ debug:              ${cpp.debug}" />
+		<echo message="C++ platform dir:       ${dir.cpp.build.platform}" />
+		<echo message="C++ compiler dir:       ${dir.cpp.build.compiler}" />
+		<echo message="C++ build dir:          ${dir.cpp.build.config}" />
+	</target>
+
+	<typedef classpath="${dir.prj.src.ant.jar}/${cpp.tasks}"
+		resource="cpptasks.types" />
+	<taskdef classpath="${dir.prj.src.ant.jar}/${cpp.tasks}"
+		resource="cpptasks.tasks" />
+
+	<import file="config_cpp_compiler.xml" />
+	<import file="config_cpp_linker.xml" />
+
+</project>

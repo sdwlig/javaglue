@@ -1,0 +1,16 @@
+#!/bin/bash -e
+# javaglue.doxygen applibname briefDescription output excludeList input...
+
+if [ "$VERBOSE" = 1 ]; then set -xv; fi
+JGDIR=`dirname $0`
+JGDIR=`cd $JGDIR/..;/bin/pwd`
+APPLIB=$1; shift
+BRIEF=$1; shift
+BUILD=$1; shift
+BUILD=`cd $BUILD;/bin/pwd`
+
+if [ "$1" = "" ]; then
+    echo Usage: javaglue.doxygen applibname briefDescription output excludeList input...
+fi
+
+${JGDIR}/scripts/dox ${JGDIR}/scripts/Doxyfile.template ${APPLIB} ${BRIEF} ${BUILD}/ "" $@

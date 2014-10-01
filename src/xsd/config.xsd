@@ -1,0 +1,574 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 
+	Copyright (c) 2006 netAllied GmbH, Tettnang. All rights reserved.
+	Also see acknowledgements in Readme.html
+	
+	This program is free software; you can redistribute it and/or modify it under
+	the terms of the GNU Lesser General Public License as published by the Free Software
+	Foundation; either version 2 of the License, or (at your option) any later
+	version.
+	
+	This program is distributed in the hope that it will be useful, but WITHOUT
+	ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+	FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details.
+	
+	You should have received a copy of the GNU Lesser General Public License along with
+	this program; if not, write to the Free Software Foundation, Inc., 59 Temple
+	Place - Suite 330, Boston, MA 02111-1307, USA, or go to
+	http://www.gnu.org/copyleft/lesser.txt.
+	
+	Author: Kai Klesatschke <yavin@ogre4j.org>
+-->
+<xs:schema xmlns="http://xbig.sourceforge.net/XBiG"
+	targetNamespace="http://xbig.sourceforge.net/XBiG"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	elementFormDefault="qualified">
+	<xs:annotation>
+		<xs:documentation>
+			This schema defines the structure and content of the configuration file for XBiG builds.
+		</xs:documentation>
+	</xs:annotation>
+	<xs:element name="attributevalue">
+		<xs:complexType>
+			<xs:attribute name="name" use="required">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="_jni_value_" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="class">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="pointer" minOccurs="0" />
+				<xs:element ref="inherits" minOccurs="0" />
+				<xs:element ref="content" minOccurs="0" />
+			</xs:sequence>
+			<xs:attribute name="name">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="_jni_class_" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="config">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="meta" />
+				<xs:element ref="cpp" />
+				<xs:element ref="java" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="const-pass">
+		<xs:complexType>
+			<xs:attribute name="meta" use="required">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="array" />
+						<xs:enumeration value="pointer" />
+						<xs:enumeration value="reference" />
+						<xs:enumeration value="value" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="signature" use="required">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="A" />
+						<xs:enumeration value="P" />
+						<xs:enumeration value="R" />
+						<xs:enumeration value="V" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="constoverloading">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="prefix" />
+				<xs:element ref="suffix" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="constructor">
+		<xs:complexType mixed="true">
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:element ref="name" />
+			</xs:choice>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="content" type="xs:string" />
+	<xs:element name="cpp">
+		<xs:complexType>
+			<xs:choice maxOccurs="unbounded">
+				<xs:element ref="format" />
+				<xs:element ref="variables" />
+				<xs:element ref="method" />
+				<xs:element ref="jni" />
+				<xs:element ref="object" />
+				<xs:element ref="prefix" />
+				<xs:element ref="result" />
+				<xs:element ref="suffix" />
+			</xs:choice>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="cpp2jni" type="xs:string" />
+	<xs:element name="defaultName">
+		<xs:simpleType>
+			<xs:restriction base="xs:string">
+				<xs:enumeration value="a" />
+			</xs:restriction>
+		</xs:simpleType>
+	</xs:element>
+	<xs:element name="destructor">
+		<xs:complexType mixed="true">
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:element ref="name" />
+			</xs:choice>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="environment">
+		<xs:complexType>
+			<xs:attribute name="name" use="required">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="_jni_env_" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="file">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="header" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="format">
+		<xs:complexType>
+			<xs:choice>
+				<xs:element ref="indent" />
+				<xs:element ref="file" />
+			</xs:choice>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="get">
+		<xs:complexType mixed="true">
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:element ref="nonstatic" />
+				<xs:element ref="static" />
+			</xs:choice>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="header" type="xs:string" />
+	<xs:element name="indent">
+		<xs:simpleType>
+			<xs:restriction base="xs:string">
+				<xs:enumeration value="&#10;&#32;&#32;" />
+			</xs:restriction>
+		</xs:simpleType>
+	</xs:element>
+	<xs:element name="inherits">
+		<xs:simpleType>
+			<xs:restriction base="xs:string">
+				<xs:enumeration value="org.xbig.base.NativeObject" />
+			</xs:restriction>
+		</xs:simpleType>
+	</xs:element>
+	<xs:element name="interface">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="prefix" />
+				<xs:element ref="suffix" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="java">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="types" />
+				<xs:element ref="namespaces" />
+				<xs:element ref="class" />
+				<xs:element ref="interface" />
+				<xs:element ref="constoverloading" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="jni">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="environment" minOccurs="0" />
+				<xs:element ref="class" minOccurs="0" />
+				<xs:element ref="object" minOccurs="0" />
+				<xs:element ref="pointer" minOccurs="0" />
+				<xs:element ref="attributevalue" minOccurs="0" />
+				<xs:element ref="signatures" minOccurs="0" />
+				<xs:element ref="types" minOccurs="0" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="jni2cpp" type="xs:string" />
+	<xs:element name="meta">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="signatures" />
+				<xs:element ref="method" />
+				<xs:element ref="constructor" />
+				<xs:element ref="destructor" />
+				<xs:element ref="publicattribute" />
+				<xs:element ref="parameter" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="method">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="name" minOccurs="0" />
+				<xs:element ref="constructor" minOccurs="0" />
+				<xs:element ref="destructor" minOccurs="0" />
+				<xs:element ref="static" minOccurs="0" />
+				<xs:element ref="normal" minOccurs="0" />
+				<xs:element ref="publicattribute" minOccurs="0" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="name">
+		<xs:complexType mixed="true">
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:element ref="prefix" />
+				<xs:element ref="suffix" />
+			</xs:choice>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="namespaces">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="packageprefix" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="nonstatic" type="xs:string" />
+	<xs:element name="normal">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="void" />
+				<xs:element ref="return" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="object">
+		<xs:complexType>
+			<xs:attribute name="name" use="required">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="_cpp_this" />
+						<xs:enumeration value="_jni_this_" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="packageprefix">
+		<xs:simpleType>
+			<xs:restriction base="xs:string">
+				<xs:enumeration value="org.xbig" />
+			</xs:restriction>
+		</xs:simpleType>
+	</xs:element>
+	<xs:element name="parameter">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="defaultName" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="pass">
+		<xs:complexType>
+			<xs:attribute name="meta" use="required">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="array" />
+						<xs:enumeration value="pointer" />
+						<xs:enumeration value="reference" />
+						<xs:enumeration value="value" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="signature" use="required">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="a" />
+						<xs:enumeration value="p" />
+						<xs:enumeration value="r" />
+						<xs:enumeration value="v" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="pointer">
+		<xs:complexType mixed="true">
+			<xs:attribute name="name">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="_jni_pointer_" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="prefix">
+		<xs:complexType mixed="true">
+			<xs:attribute name="name">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="_cpp_" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="publicattribute">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="get" />
+				<xs:element ref="set" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="result">
+		<xs:complexType>
+			<xs:attribute name="name" use="required">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="_cpp_result" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="return" type="xs:string" />
+	<xs:element name="set">
+		<xs:complexType mixed="true">
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:element ref="nonstatic" />
+				<xs:element ref="static" />
+			</xs:choice>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="signatures">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="type" maxOccurs="unbounded" />
+				<xs:element ref="pass" minOccurs="0"
+					maxOccurs="unbounded" />
+				<xs:element ref="const-pass" minOccurs="0"
+					maxOccurs="unbounded" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="static">
+		<xs:complexType mixed="true">
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:element ref="void" />
+				<xs:element ref="return" />
+			</xs:choice>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="suffix">
+		<xs:complexType mixed="true">
+			<xs:attribute name="name" type="xs:string" />
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="type">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="jni2cpp" minOccurs="0" />
+				<xs:element ref="cpp2jni" minOccurs="0" />
+			</xs:sequence>
+			<xs:attribute name="meta" use="required">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="array" />
+						<xs:enumeration value="bool" />
+						<xs:enumeration value="boolean" />
+						<xs:enumeration value="byte" />
+						<xs:enumeration value="char" />
+						<xs:enumeration value="double" />
+						<xs:enumeration value="float" />
+						<xs:enumeration value="int" />
+						<xs:enumeration value="long" />
+						<xs:enumeration value="object" />
+						<xs:enumeration value="short" />
+						<xs:enumeration value="signed char" />
+						<xs:enumeration value="signed int" />
+						<xs:enumeration value="signed long" />
+						<xs:enumeration value="signed short" />
+						<xs:enumeration value="size_t" />
+						<xs:enumeration value="std::string" />
+						<xs:enumeration value="unsigned char" />
+						<xs:enumeration value="unsigned int" />
+						<xs:enumeration value="unsigned long" />
+						<xs:enumeration value="unsigned short" />
+						<xs:enumeration value="void" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="signature">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="B" />
+						<xs:enumeration value="C" />
+						<xs:enumeration value="D" />
+						<xs:enumeration value="F" />
+						<xs:enumeration value="H" />
+						<xs:enumeration value="I" />
+						<xs:enumeration value="J" />
+						<xs:enumeration value="L" />
+						<xs:enumeration value="Ljava/lang/String;" />
+						<xs:enumeration value="S" />
+						<xs:enumeration value="V" />
+						<xs:enumeration value="Z" />
+						<xs:enumeration value="[" />
+						<xs:enumeration value="b" />
+						<xs:enumeration value="c" />
+						<xs:enumeration value="h" />
+						<xs:enumeration value="i" />
+						<xs:enumeration value="l" />
+						<xs:enumeration value="s" />
+						<xs:enumeration value="v" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="jni">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="jboolean" />
+						<xs:enumeration value="jbyte" />
+						<xs:enumeration value="jchar" />
+						<xs:enumeration value="jdouble" />
+						<xs:enumeration value="jfloat" />
+						<xs:enumeration value="jint" />
+						<xs:enumeration value="jlong" />
+						<xs:enumeration value="jshort" />
+						<xs:enumeration value="jstring" />
+						<xs:enumeration value="void" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="pass">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="pointer" />
+						<xs:enumeration value="reference" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="cpp">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="bool*" />
+						<xs:enumeration value="char*" />
+						<xs:enumeration value="double*" />
+						<xs:enumeration value="float*" />
+						<xs:enumeration value="int*" />
+						<xs:enumeration value="long*" />
+						<xs:enumeration value="short*" />
+						<xs:enumeration value="signed int*" />
+						<xs:enumeration value="signed long*" />
+						<xs:enumeration value="signed short*" />
+						<xs:enumeration value="size_t*" />
+						<xs:enumeration value="std::string" />
+						<xs:enumeration value="std::string*" />
+						<xs:enumeration value="unsgined long*" />
+						<xs:enumeration value="unsigned int*" />
+						<xs:enumeration value="unsigned long*" />
+						<xs:enumeration value="unsigned short*" />
+						<xs:enumeration value="void*" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="returntype">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="bool&amp;" />
+						<xs:enumeration value="double&amp;" />
+						<xs:enumeration value="float&amp;" />
+						<xs:enumeration value="int&amp;" />
+						<xs:enumeration value="long&amp;" />
+						<xs:enumeration value="short&amp;" />
+						<xs:enumeration value="signed int&amp;" />
+						<xs:enumeration value="signed long&amp;" />
+						<xs:enumeration value="signed short&amp;" />
+						<xs:enumeration value="size_t&amp;" />
+						<xs:enumeration value="std::string&amp;" />
+						<xs:enumeration value="unsigned int&amp;" />
+						<xs:enumeration value="unsigned long&amp;" />
+						<xs:enumeration value="unsigned short&amp;" />
+						<xs:enumeration value="void&amp;" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="const">
+				<xs:simpleType>
+					<xs:restriction base="xs:boolean" />
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="java">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="String" />
+						<xs:enumeration value="boolean" />
+						<xs:enumeration value="byte" />
+						<xs:enumeration value="char" />
+						<xs:enumeration value="double" />
+						<xs:enumeration value="float" />
+						<xs:enumeration value="int" />
+						<xs:enumeration value="long" />
+						<xs:enumeration value="short" />
+						<xs:enumeration value="void" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="genericParameter">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="BigInteger" />
+						<xs:enumeration value="Boolean" />
+						<xs:enumeration value="Byte" />
+						<xs:enumeration value="Double" />
+						<xs:enumeration value="Float" />
+						<xs:enumeration value="Integer" />
+						<xs:enumeration value="Long" />
+						<xs:enumeration value="Short" />
+						<xs:enumeration value="String" />
+						<xs:enumeration value="void" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="types">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="type" maxOccurs="unbounded" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="variables">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="jni" />
+				<xs:element ref="cpp" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="void" type="xs:string" />
+</xs:schema>

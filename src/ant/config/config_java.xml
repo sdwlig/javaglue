@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE AntProject []>
+
+<!--
+	This source file is part of XBiG
+		(XSLT Bindings Generator)
+	For the latest info, see http://sourceforge.net/projects/javaglue
+	
+	Copyright (c) 2006 The XBiG Development Team
+	Also see acknowledgements in Readme.html
+	
+	This program is free software; you can redistribute it and/or modify it under
+	the terms of the GNU Lesser General Public License as published by the Free Software
+	Foundation; either version 2 of the License, or (at your option) any later
+	version.
+	
+	This program is distributed in the hope that it will be useful, but WITHOUT
+	ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+	FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details.
+	
+	You should have received a copy of the GNU Lesser General Public License along with
+	this program; if not, write to the Free Software Foundation, Inc., 59 Temple
+	Place - Suite 330, Boston, MA 02111-1307, USA, or go to
+	http://www.gnu.org/copyleft/lesser.txt.
+	
+	Author: Frank Bielig
+-->
+
+<!-- 
+	Definition of some default properties, which will be needed in 
+	many propjects
+-->
+
+<project name="config.java" default="echo-props" basedir="../../..">
+
+	<import file="config_base.xml" />
+
+	<!-- <property name="dir.java.home" value="/usr/local/java/jdks/linux/jdk-latest" /> -->
+	<property environment="env"/>
+	<property name="dir.java.home" value="${env.JAVA_HOME}" />
+	<property name="dir.ant.home"
+		value="/usr/share/ant" />
+		
+		
+	<property name="dir.java.bin" value="${dir.java.home}/bin" />
+	<property name="dir.java.lib" value="${dir.java.home}/lib" />
+	<property name="dir.java.include" value="${dir.java.home}/include" />
+	
+	<property name="dir.cur.src.java" value="${dir.cur.src}/java" />
+	<property name="dir.cur.build.java" value="${dir.cur.build}/java" />
+	<property name="dir.cur.build.java.class" value="${dir.cur.build.java}/class" />
+	<property name="dir.cur.build.java.jar" value="${dir.cur.build.java}/jar" />
+
+	<!-- ==================================================================== -->
+	<!-- Defines the Jalopy task                                              -->
+	<!-- ==================================================================== -->
+	<taskdef name="jalopy"
+		classname="de.hunsicker.jalopy.plugin.ant.AntPlugin">
+		<classpath>
+			<fileset dir="${dir.prj.src.ant.jar}" includes="jalopy-1.5.3.jar" />
+			<fileset dir="${dir.prj.src.ant.jar}" includes="jalopy-ant-1.5.3.jar" />
+			<fileset dir="${dir.prj.src.ant.jar}" includes="log4j-1.2.8.jar" />
+		</classpath>
+	</taskdef>
+
+
+	<!-- ==================================================================== -->
+	<!-- Defines the JUnit task                                               -->
+	<!-- ==================================================================== -->
+	<taskdef name="junit"
+		classname="org.apache.tools.ant.taskdefs.optional.junit.JUnitTask">		
+		<classpath>
+			<pathelement location="${dir.prj.src.ant.jar}/junit-4.1.0.jar" />
+ 			<pathelement location="${dir.prj.src.ant.jar}/ant-junit.jar" />
+		</classpath>
+	</taskdef>
+	
+	<target name="java-pre-init">
+		<condition property="java.is-windows">
+			<os family="windows" />
+		</condition>
+	</target>
+
+
+	<target name="java-include-windows-init" depends="java-pre-init"
+		if="java.is-windows">
+		<echo message="WINDOWS FOUND" />
+		<property name="dir.java.include.os"
+			value="${dir.java.include}/win32" />
+	</target>
+
+	<target name="java-include-linux-init" depends="java-pre-init"
+		unless="java.is-windows">
+		<echo message="LINUX FOUND" />
+		<property name="dir.java.include.os"
+			value="${dir.java.include}/linux" />
+	</target>
+
+	<target name="java-include-init"
+		depends="java-include-linux-init, java-include-windows-init">
+	</target>
+
+	<target name="init" depends="config.base.init, java-include-init"></target>
+
+
+	<target name="echo-props" depends="init, config.base.echo-props">
+		<echo message="Java Configuration:" />
+		<echo message="Java home dir:           ${dir.java.home}" />
+		<echo message="Java bin dir:            ${dir.java.bin}" />
+		<echo message="Java include dir:        ${dir.java.include}" />
+		<echo message="Java include dir (os):   ${dir.java.include.os}" />
+		<echo message="Java class dir:          ${dir.java.class}" />
+	</target>
+
+</project>

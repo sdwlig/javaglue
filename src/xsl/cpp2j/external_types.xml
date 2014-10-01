@@ -1,0 +1,8 @@
+
+<!DOCTYPE DaemonConfig [
+  <!ENTITY stl_wrapper SYSTEM "etc/stl_wrapper.xml">
+]>
+
+<external>
+	<types>&stl_wrapper;</types>
+</external>

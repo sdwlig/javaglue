@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE AntProject []>
+
+<!--
+	This source file is part of XBiG
+		(XSLT Bindings Generator)
+	For the latest info, see http://sourceforge.net/projects/javaglue
+	
+	Copyright (c) 2006 The XBiG Development Team
+	Also see acknowledgements in Readme.html
+	
+	This program is free software; you can redistribute it and/or modify it under
+	the terms of the GNU Lesser General Public License as published by the Free Software
+	Foundation; either version 2 of the License, or (at your option) any later
+	version.
+	
+	This program is distributed in the hope that it will be useful, but WITHOUT
+	ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+	FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details.
+	
+	You should have received a copy of the GNU Lesser General Public License along with
+	this program; if not, write to the Free Software Foundation, Inc., 59 Temple
+	Place - Suite 330, Boston, MA 02111-1307, USA, or go to
+	http://www.gnu.org/copyleft/lesser.txt.
+
+-->
+
+<!-- 
+	Definition of some default properties, which will be needed in 
+	many propjects
+-->
+
+<project name="util.cpp" default="echo-props" basedir="../../..">
+
+	<import file="../config/config_cpp.xml" />
+
+	<macrodef name="cpp-compile">
+		<attribute name="name" />
+		<attribute name="type" />
+		<attribute name="dir" />
+		<element name="sources" />
+		<element name="libraries" optional="true" />
+		<element name="moresources" optional="true" />
+		<element name="moreincludes" optional="true" />
+		<element name="morelibraries" optional="true" />
+		<element name="moredefines" optional="true" />
+		<sequential>
+			<mkdir dir="@{dir}" />
+			<cc subsystem="console" objdir="@{dir}" debug="${cpp.debug}" outtype="@{type}" name="${cpp.compiler}" exceptions="true" rtti="true" optimize="speed" outfile="@{dir}/@{name}">
+
+				<sources />
+				<moresources />
+
+				<!-- <includepath path="${dir.cpp.inc}" />
+				<includepath > <dirset dir="${javaglue.input}" includes=". **" /> </includepath>
+				     -->
+
+				<includepath >
+				    <dirset dir="${dir.cpp.inc}" includes=". **" />
+				    <dirset dir="${javaglue.input}" includes=". **" />
+				</includepath>
+				<moreincludes />
+
+				<libset libs="dl" unless="cpp.is-win32" />
+				<libset libs="stdc++" if="cpp.use-gcc" />
+				<!--<libset libs="gcc_s" if="cpp.use-gcc" />-->
+				<libraries />
+				<morelibraries />
+
+				<defineset define="WIN32" if="cpp.is-win32" />
+				<defineset define="DEBUG" if="cpp.is-debug" />
+				<defineset define="_Debug" if="cpp.is-debug" />
+				<moredefines />
+
+			</cc>
+		</sequential>
+	</macrodef>
+
+	<macrodef name="cpp-lib-compile">
+		<attribute name="name" />
+		<attribute name="srcdir" />
+		<attribute name="outdir" />
+		<attribute name="type" />
+		<element name="extraincludes" optional="true" />
+		<element name="extralibraries" optional="true" />
+		<sequential>
+			<echo message="create @{type} library @{name} in @{outdir}/@{type} with sources in @{srcdir}" />
+			<cpp-compile name="@{name}" dir="@{outdir}/@{type}" type="@{type}">
+				<sources>
+					<fileset dir="@{srcdir}">
+						<include name="*.cc" />
+						<include name="*.cpp" />
+						<include name="*.cxx" />
+						<include name="*.c++" />
+					</fileset>
+				</sources>
+				<moreincludes>
+					<extraincludes />
+				</moreincludes>
+				<morelibraries>
+					<extralibraries />
+				</morelibraries>
+			</cpp-compile>
+
+			<!-- embed manifest for visual studio 2005 -->
+			<exec executable="mt.exe" dir="@{outdir}/@{type}" osfamily="Windows"
+				    failonerror="false" failifexecutionfails="false">
+				<arg value="-manifest" />
+				<arg value="@{name}.dll.manifest" />
+				<arg value="-outputresource:@{name}.dll;2" />
+			</exec>
+		</sequential>
+	</macrodef>
+
+	<macrodef name="cpp-shared-lib">
+		<attribute name="name" />
+		<element name="moreincludes" optional="true" />
+		<sequential>
+			<cpp-lib-compile name="@{name}" outdir="${dir.cpp.build.config}" srcdir="${dir.cpp.src.lib}" type="shared">
+				<extraincludes>
+					<moreincludes />
+				</extraincludes>
+			</cpp-lib-compile>
+		</sequential>
+	</macrodef>
+
+	<macrodef name="cpp-static-lib">
+		<attribute name="name" />
+		<element name="moreincludes" optional="true" />
+		<sequential>
+			<cpp-lib-compile name="@{name}" outdir="${dir.cpp.build.config}" srcdir="${dir.cpp.src.lib}" type="static">
+				<extraincludes>
+					<moreincludes />
+				</extraincludes>
+			</cpp-lib-compile>
+		</sequential>
+	</macrodef>
+
+
+	<macrodef name="cpp-test-compile">
+		<attribute name="name" />
+		<attribute name="outdir" />
+		<attribute name="type" />
+		<attribute name="libs" />
+		<element name="test-sources" />
+  	<element name="extraincludes" optional="true" />
+	  <element name="extralibraries" optional="true" />
+		<sequential>
+			<echo message="create @{type} test program @{name} in @{outdir}/@{type}" />
+			<cpp-compile name="@{name}" dir="@{outdir}/@{type}" type="executable">
+				<sources>
+					<test-sources />
+				</sources>
+				<libraries>
+					<libset dir="${dir.cpp.build.config}/@{type}" libs="@{libs}" type="@{type}" />
+				</libraries>
+      	<moreincludes>
+					<extraincludes />
+	      </moreincludes>
+      	<morelibraries>
+				  <extralibraries />
+        </morelibraries>
+			</cpp-compile>
+		</sequential>
+	</macrodef>
+
+	<macrodef name="cpp-shared-test">
+		<attribute name="name" />
+		<attribute name="libs" />
+  	<element name="moreincludes" optional="true" />
+    <element name="morelibraries" optional="true" />
+		<sequential>
+			<cpp-test-compile name="@{name}" outdir="${dir.cpp.build.config}" type="shared" libs="@{libs}">
+				<test-sources>
+					<fileset dir="${dir.cpp.src.test}" includes="@{name}.cpp" />
+					<fileset dir="${dir.cpp.src.test}" includes="@{name}.cc" />
+					<fileset dir="${dir.cpp.src.test}" includes="@{name}.cxx" />
+					<fileset dir="${dir.cpp.src.test}" includes="@{name}.c++" />
+				</test-sources>
+				<extraincludes>
+					<moreincludes />
+				</extraincludes>
+				<extralibraries>
+					<morelibraries />
+				</extralibraries>
+			</cpp-test-compile>
+		</sequential>
+	</macrodef>
+
+	<macrodef name="cpp-static-test">
+		<attribute name="name" />
+		<attribute name="libs" />
+  	<element name="moreincludes" optional="true" />
+    <element name="morelibraries" optional="true" />
+		<sequential>
+			<cpp-test-compile name="@{name}" outdir="${dir.cpp.build.config}" type="static" libs="@{libs}">
+				<test-sources>
+					<fileset dir="${dir.cpp.src.test}" includes="@{name}.cpp" />
+					<fileset dir="${dir.cpp.src.test}" includes="@{name}.cc" />
+					<fileset dir="${dir.cpp.src.test}" includes="@{name}.cxx" />
+					<fileset dir="${dir.cpp.src.test}" includes="@{name}.c++" />
+				</test-sources>
+			</cpp-test-compile>
+		</sequential>
+	</macrodef>
+
+
+	<target name="init" depends="config.cpp.init">
+	</target>
+
+
+	<target name="cpp-clean" depends="init">
+		<delete dir="${dir.cpp.build.config}" />
+	</target>
+
+</project>

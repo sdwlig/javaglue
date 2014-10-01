@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE AntProject []>
+
+<!--
+	This source file is part of XBiG
+		(XSLT Bindings Generator)
+	For the latest info, see http://sourceforge.net/projects/javaglue
+	
+	Copyright (c) 2006 The XBiG Development Team
+	Also see acknowledgements in Readme.html
+	
+	This program is free software; you can redistribute it and/or modify it under
+	the terms of the GNU Lesser General Public License as published by the Free Software
+	Foundation; either version 2 of the License, or (at your option) any later
+	version.
+	
+	This program is distributed in the hope that it will be useful, but WITHOUT
+	ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+	FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details.
+	
+	You should have received a copy of the GNU Lesser General Public License along with
+	this program; if not, write to the Free Software Foundation, Inc., 59 Temple
+	Place - Suite 330, Boston, MA 02111-1307, USA, or go to
+	http://www.gnu.org/copyleft/lesser.txt.
+	
+	Author: Frank Bielig
+-->
+
+<!-- 
+	Definition of some default properties, which will be needed in 
+	many propjects
+-->
+
+<project name="util.xsl" default="echo-props" basedir="../../..">
+
+	<import file="../config/config_xsl.xml" />
+
+	<macrodef name="saxon">
+		<attribute name="source" />
+		<attribute name="target" />
+		<attribute name="style" />
+		<element name="args" optional="true" />
+		<element name="params" optional="true" />
+		<sequential>
+			<echo message="source: @{source}" />
+			<echo message="target: @{target}" />
+			<echo message="style:  @{style}" />
+
+			<java classpath="${dir.prj.src}/java/build/java/class; ${jar.xsl.saxon}"
+				classname="net.sf.saxon.Transform" fork="true" failonerror="true"
+				maxmemory="1024m">
+				<args />
+<!--				<arg value="-T" /> -->
+				<arg value="-o" />
+				<arg value="@{target}" />
+				<arg value="@{source}" />
+				<arg value="@{style}" />
+				<params />
+			</java>
+		</sequential>
+	</macrodef>
+
+
+	<target name="init" depends="config.xsl.init"></target>
+
+
+	<target name="xsl-clean" depends="init"></target>
+
+</project>

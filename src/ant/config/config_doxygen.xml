@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE AntProject []>
+
+<!--
+	This source file is part of XBiG
+		(XSLT Bindings Generator)
+	For the latest info, see http://sourceforge.net/projects/javaglue
+	
+	Copyright (c) 2006 The XBiG Development Team
+	Also see acknowledgements in Readme.html
+	
+	This program is free software; you can redistribute it and/or modify it under
+	the terms of the GNU Lesser General Public License as published by the Free Software
+	Foundation; either version 2 of the License, or (at your option) any later
+	version.
+	
+	This program is distributed in the hope that it will be useful, but WITHOUT
+	ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+	FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details.
+	
+	You should have received a copy of the GNU Lesser General Public License along with
+	this program; if not, write to the Free Software Foundation, Inc., 59 Temple
+	Place - Suite 330, Boston, MA 02111-1307, USA, or go to
+	http://www.gnu.org/copyleft/lesser.txt.
+	
+	Author: Frank Bielig
+-->
+
+<!-- 
+	Definition of some default properties, which will be needed in 
+	many propjects
+-->
+
+<project name="config.doxygen" default="echo-props"
+	basedir="../../..">
+
+	<import file="config_base.xml" />
+
+	<property name="path.doxygen.bin" value="doxygen" />
+	<property name="file.doxygen.xml" value="xml.doxygen" />
+	<property name="file.doxygen.xml.output.index" value="index.xml" />
+	<property name="file.doxygen.xml.output.all" value="all.xml" />
+	<property name="file.doxygen.xml.input.combine" value="combine.xslt" />
+
+	<property name="dir.doxygen.src" value="${dir.prj.src.doxygen}" />
+	<property name="path.doxygen.xml"
+		value="${dir.doxygen.src}/${file.doxygen.xml}" />
+	<property name="dir.doxygen.output"
+		value="${dir.cur.build}/doxygen" />
+	<property name="dir.doxygen.output.xml"
+		value="${dir.doxygen.output}/xml" />
+	<property name="path.doxygen.output.xml.index"
+		value="${dir.doxygen.output.xml}/${file.doxygen.xml.output.index}" />
+	<property name="path.doxygen.input.xslt.combine"
+		value="${dir.doxygen.output.xml}/${file.doxygen.xml.input.combine}" />
+
+<!--
+        This allows the source directory to be outside the tree.  Original code:
+	<property name="dir.doxygen.input.cpp" value="${dir.cur}/include" />
+-->
+	<property name="dir.doxygen.input.cpp" value="${javaglue.input}" />
+
+	<target name="init" depends="config.base.init">
+	</target>
+
+
+	<target name="echo-props" depends="init, config.base.echo-props">
+		<echo message="Doxygen Configuration:" />
+		<echo message="Doxygen source dir:         ${dir.doxygen.src}" />
+		<echo message="Doxygen XML Transformation: ${path.doxygen.xml}" />
+		<echo
+			message="Doxygen XML Output:         ${dir.doxygen.output.xml}" />
+		<echo
+			message="Doxygen XML index file:     ${path.doxygen.output.xml.index}" />
+
+	</target>
+
+</project>

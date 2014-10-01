@@ -1,0 +1,40 @@
+#!/bin/bash
+
+if [ ! -f "$1" -o "$6" = "" ]; then echo Usage: dox template projectName projectBrief outputs excludePatterns inputs...; exit 2; fi
+
+TEMPLATE=$1; shift
+name=$1; shift
+# num=$1; shift
+brief=$1; shift
+out=$1; shift
+exclude=$1; shift
+in=$@; shift
+
+# PROJECT_NAME           = PelicanInternal
+# PROJECT_NUMBER         =
+# PROJECT_BRIEF          = Pelican Imaging Main
+# INPUT                  = mainRevision.h
+# OUTPUT_DIRECTORY       = out/docs
+# EXCLUDE_PATTERNS       = */vl/* 
+
+
+if [ ! -f "$TEMPLATE" ]; then echo PI_ROOT needs to be set.; exit 1; fi
+
+if [ ! -d ${out} ]; then mkdir -p ${out}; fi
+
+trap "rm /tmp/dox.$$ 2>/dev/null" EXIT
+sed < $TEMPLATE \
+-e "s@^PROJECT_NAME.*=.*@PROJECT_NAME=${name}@" \
+-e "s@^PROJECT_BRIEF.*=.*@PROJECT_BRIEF=${brief}@" \
+-e "s@^INPUT.*=.*@INPUT=${in}@" \
+-e "s@^OUTPUT_DIRECTORY.*=.*@OUTPUT_DIRECTORY=${out}@" \
+-e "s@^EXCLUDE_PATTERNS.*=.*@EXCLUDE_PATTERNS=${exclude}@" \
+>/tmp/dox.$$
+
+head /tmp/dox.$$
+
+doxygen /tmp/dox.$$
+
+rm  /tmp/dox.$$
+
+

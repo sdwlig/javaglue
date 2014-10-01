@@ -1,0 +1,175 @@
+#!/bin/bash -e
+# JavaGlue input is a set of C++ .h files.
+# Output: Copies of JavaGlue C++ .h/.cpp files.
+#         Generated C++ .h/.cpp files.
+#         JavaGlue library and generated Java files compiled into one or two jar files.
+if [ "$VERBOSE" = 1 ]; then set -xv; fi
+
+# Bail on any errors
+set -e
+
+JGDIR=`dirname $0`
+JGDIR=`cd $JGDIR/..;/bin/pwd`
+sys=`uname -s`
+LIBSO=""
+if [ "$sys" = "Darwin" ]; then
+   export JAVA_HOME=`/usr/libexec/java_home`
+   JAVA_INC=${JAVA_HOME}/include
+   JAVA_INC2="${JAVA_HOME}/include/darwin"
+   LIBSO=dylib
+   CPPFLAGS=-fPIC
+   JGDIRW=${JGDIR}
+   FIX=cat
+fi
+if [ "$sys" = "Linux" ]; then
+   if [ "$JAVA_HOME" = "" ]; then export JAVA_HOME=$(readlink -f /usr/bin/java | sed "s:jre/bin/java::"); fi
+   JAVA_INC=${JAVA_HOME}/include
+   JAVA_INC2="${JAVA_HOME}/include/linux"
+   LIBSO=so
+   CPPFLAGS=-fPIC
+   JGDIRW=${JGDIR}
+   FIX=cat
+fi
+# Fallback for Windows.  Assume JAVA_HOME is set.
+if [ "$LIBSO" = "" ]; then
+   JAVA_INC=${JAVA_HOME}/include
+   JAVA_INC2="${JAVA_HOME}/include/win32"
+   LIBSO=dll
+   CPPFLAGS=
+   export FIX='sed -e s@/cygdrive/c@C:@ -e s@/cygdrive/d@D:@'
+   JGDIRW=`echo $JGDIR|$FIX`
+   echo JGDIRW: $JGDIRW
+fi
+
+if [ ! -f ${JAVA_INC}/jni.h ] || [ ! -f ${JAVA_INC2}/jni_md.h ]; then
+  echo "JAVA_HOME must be unset for autodetect or set to the Oracle 7 Java home directory so that include/jni.h and include/{darwin,linux,win32}/jni_md.h can be found."
+  exit -2
+fi
+
+# Often not in the path on Windows
+export PATH=$JAVA_HOME/bin:$PATH
+
+# Assumes JAVA_CLASSPATH is set if desired
+if [ "$JAVA_CLASSPATH" != "" ]; then
+  JAVA_CLASSPATH_ARG="-classpath ${JAVA_CLASSPATH}"
+fi
+
+if [ "$ANT" = "" ]; then ANT=${JGDIR}/extern/ant/bin/ant; fi
+
+if [ "$1" == "" -o "$5" == "" ]; then
+  echo Usage: javaglue appLibName libName buildDir ignoreList.xml inputDir
+  exit -1
+fi
+
+APPLIB=$1; shift
+LIBNAME=$1; shift
+BUILD=$1; shift
+if [ ! -d "${BUILD}" ]; then echo Build parameter must be a directory.; exit 3; fi
+BUILD=`cd $BUILD;/bin/pwd`
+export BUILDW=`echo $BUILD|${FIX}`
+IGNORE=$1; shift
+IGNOREW=`echo $IGNORE|${FIX}`
+JGINPUT=$@
+# JGINPUT=`cd $JGINPUT;/bin/pwd`
+
+if [ all = all ]; then
+rm -rf ${BUILD}/{cpp,java} 2>/dev/null || echo
+# Remove generated temporary content.
+rm -rf ${JGDIR}/src/*/gen/* 2>/dev/null
+
+IF=${BUILD}/inputfiles
+if [ ! -d "${IF}" ]; then mkdir -p ${IF}; fi
+if [ ! -d "${BUILD}/lclasses" ]; then mkdir -p ${BUILD}/lclasses; fi
+if [ ! -d "${BUILD}/aclasses" ]; then mkdir -p ${BUILD}/aclasses; fi
+cp ${JGDIR}/src/c/include/basedelete.h ${IF}/
+# This could copy .h arguments and dir/* for directories...
+cp -r $@ ${IF}/
+#cp -r ${JGINPUT} ${IF}/
+export JGINPUT=${IF}
+export JGINPUTW=`echo $JGINPUT|${FIX}`
+
+# JavaGlue library code depends on ByteVector being wrapped.  Make sure it is present.
+echo '#include "basedelete.h"
+#include "jni_base.h"
+extern base::ByteVector JavaGlueDummyBV;
+' >${IF}/JavaGlueDummyBV.h
+if [ ! -d "${BUILD}/cpp/src" ]; then mkdir -p ${BUILD}/cpp/src; fi
+echo '#include "JavaGlueDummyBV.h"
+base::ByteVector JavaGlueDummyBV;
+' >${BUILD}/cpp/src/JavaGlueDummyBV.cpp
+
+# Compile the uility method used in the xslt parsing:
+if [ ! -d "${JGDIR}/src/java/build/java/class" ]; then mkdir -p "${JGDIR}/src/java/build/java/class"; fi
+$JAVA_HOME/bin/javac -target 1.6 -source 1.6 -d ${JGDIRW}/src/java/build/java/class ${JGDIRW}/src/java/org/javaglue/xsltext/XsltExt.java
+
+sed -e "s@\"[.]\"/@\"${JGDIR}\"@" <${JGDIR}/build.xml >${BUILD}/build.xml
+
+if [ ! -z "$VERBOSE" ]; then
+  echo BUILD: ${ANT} -Djavaglue.home=${JGDIRW} -Djavaglue.input=${JGINPUTW} -Djavaglue.build=${BUILDW} \
+ -Djavaglue.applibname=${APPLIB} -Djavaglue.libname=${LIBNAME} -Djavaglue.ignorelist=${IGNOREW} -f ${BUILDW}/build.xml
+fi
+
+${ANT} -Djavaglue.home=${JGDIRW} -Djavaglue.input=${JGINPUTW} -Djavaglue.build=${BUILDW} \
+ -Djavaglue.applibname=${APPLIB} -Djavaglue.libname=${LIBNAME} -Djavaglue.ignorelist=${IGNOREW} -f ${BUILDW}/build.xml clean
+
+${ANT} -Djavaglue.home=${JGDIRW} -Djavaglue.input=${JGINPUTW} -Djavaglue.build=${BUILDW} \
+ -Djavaglue.applibname=${APPLIB} -Djavaglue.libname=${LIBNAME} -Djavaglue.ignorelist=${IGNOREW} -f ${BUILDW}/build.xml
+
+# Todo: Move this to build directory.
+# Generate autoload of shared library.
+GENDIR=${JGDIR}/src/java/gen/javaglue
+if [ ! -d "${GENDIR}" ]; then mkdir -p ${GENDIR}; fi
+echo "package gen.javaglue; public class LoadLibraries { public boolean loaded = false; static { System.loadLibrary(\"${APPLIB}\"); /*System.out.println(\"Loaded:${APPLIB}\");*/ } }" \
+  >${GENDIR}/LoadLibraries.java
+
+# echo "package gen.javaglue; public class LoadLibraries { public boolean loaded = false; static { System.loadLibrary(\"${APPLIB}\"); System.loadLibrary(\"${LIBNAME}\"); } }" \
+
+JAVALFILES=`find ${JGDIR}/src/java -name '*.java'`
+JAVALFILESW=`echo $JAVALFILES|${FIX}`
+JAVAAFILES=`find ${BUILD}/java ${JGDIR}/src/java2 -name '*.java'`
+JAVAAFILESW=`echo $JAVAAFILES|${FIX}`
+
+$JAVA_HOME/bin/javac -target 1.6 -source 1.6 -d ${BUILD}/lclasses ${JAVA_CLASSPATH} -sourcepath ${JGDIRW}/src/java ${JAVALFILESW}
+$JAVA_HOME/bin/javac -target 1.6 -source 1.6 -d ${BUILD}/aclasses ${JAVA_CLASSPATH} -classpath ${BUILD}/lclasses -sourcepath ${JGDIRW}/build/java ${JAVAAFILESW}
+
+echo Applib jar:
+BASECLASSES=`cd ${BUILD}/aclasses; echo *`
+(cd ${BUILD}/aclasses && jar -cvf ${BUILD}/${APPLIB}.jar ${BASECLASSES})
+
+echo JavaGlue Lib jar:
+BASECLASSES=`cd ${BUILD}/lclasses; echo *`
+(cd ${BUILD}/lclasses && jar -cvf ${BUILD}/${LIBNAME}.jar ${BASECLASSES})
+
+fi # all = ?
+
+#echo Compile app C++:
+#CPPLFILES=`find ${JGDIR}/src/c/src/lib -name '*.cpp' -o -name '*.c'`
+# echo ${CPPFILES}
+#if [ ! -d "${BUILD}/lobjs" ]; then mkdir -p ${BUILD}/lobjs; fi
+#(cd ${BUILD}/lobjs;c++ -c -I${JAVA_INC} -I${JGDIR}/src/c/include ${CPPFILES})
+# (cd ${BUILD};gcc -shared -o lib${APPLIB}.${LIBSO} lobjs/*.o -lstdc++)
+
+
+#echo Compile lib C++:
+#CPPAFILES=`find ${JGINPUT} -name '*.cpp' -o -name '*.c';find ${BUILD}/cpp/src/lib -name '*.cpp'`
+# echo ${CPPFILES}
+#ADIRS=`find ${BUILD}/inputfiles ${BUILD}/cpp/include -type d|while read x;do echo -I${x};done`
+#if [ ! -d "${BUILD}/aobjs" ]; then mkdir -p ${BUILD}/aobjs; fi
+
+# Assemble C++ output and Java headers to make it easy to compile.
+#echo cp -r ${JGDIR}/src/c/src/* ${BUILD}/cpp/src/
+cp -r ${JGDIR}/src/c/src/* ${BUILD}/cpp/src/
+#echo cp -r ${JGDIR}/src/c/include/* ${JAVA_INC} ${JAVA_INC2} ${BUILD}/cpp/include/
+cp -r ${JGDIR}/src/c/include/* ${JAVA_INC} ${JAVA_INC2} ${BUILD}/cpp/include/
+
+#${JGDIR}/scripts/dox ${JGDIR}/scripts/Doxyfile.template ${APPLIB} "Scripting ${APPLIB}" ${BUILD}/ "" ${BUILD}/java
+
+# (cd ${BUILD}/aobjs;c++ ${CPPFLAGS} -c -I${JAVA_INC} ${JAVA_INC2} -I${JGDIR}/src/c/include -I${JGINPUT} -I${BUILD}/inputfiles/include ${ADIRS} -I${BUILD}/cpp/include ${CPPAFILES} ${CPPLFILES})
+# (cd ${BUILD};gcc -shared -o lib${APPLIB}.${LIBSO} aobjs/*.o  -lstdc++)
+
+#lobjs/*.o lib${APPLIB}.${LIBSO}
+
+#java -cp build/xa.jar:build/xb.jar:rhino/js.jar org.mozilla.javascript.tools.shell.Main -e \
+#    'Packages.java'
+
+# ${JGDIR}/test .

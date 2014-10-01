@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE AntProject []>
+
+<!--
+	This source file is part of XBiG
+		(XSLT Bindings Generator)
+	For the latest info, see http://sourceforge.net/projects/javaglue
+	
+	Copyright (c) 2006 The XBiG Development Team
+	Also see acknowledgements in Readme.html
+	
+	This program is free software; you can redistribute it and/or modify it under
+	the terms of the GNU Lesser General Public License as published by the Free Software
+	Foundation; either version 2 of the License, or (at your option) any later
+	version.
+	
+	This program is distributed in the hope that it will be useful, but WITHOUT
+	ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+	FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details.
+	
+	You should have received a copy of the GNU Lesser General Public License along with
+	this program; if not, write to the Free Software Foundation, Inc., 59 Temple
+	Place - Suite 330, Boston, MA 02111-1307, USA, or go to
+	http://www.gnu.org/copyleft/lesser.txt.
+	
+	Author: Frank Bielig
+-->
+
+<!-- 
+	Definition of some default properties, which will be needed in 
+	many propjects
+-->
+
+<project name="config.cpp.compiler" basedir="../../..">
+
+	<targetplatform osfamily="mac">
+	</targetplatform>
+
+	<compiler id="base-msvc" name="msvc">
+		<!--  target Pentium Pro   -->
+		<compilerarg value="/G6" />
+		<!--  display many warnings   -->
+		<compilerarg value="/W3" />
+		<!--  maximize speed     -->
+		<compilerarg value="/O2" unless="is-debug" />
+		<!--  auto-inlining    -->
+		<compilerarg value="/Ob2" unless="is-debug" />
+		<defineset>
+			<define name="_CRTDBG_MAP_ALLOC" if="is-debug" />
+		</defineset>
+	</compiler>
+
+	<compiler id="msvc" name="msvc" extends="base-msvc" if="use-msvc">
+		<!--  disable Microsoft Extensions   -->
+		<compilerarg value="/Za" />
+	</compiler>
+
+	<compiler id="msvc-with-extensions" extends="base-msvc"
+		if="use-msvc">
+		<!--  enable Microsoft Extensions   -->
+		<compilerarg value="/Ze" />
+	</compiler>
+
+	<compiler id="icl" extends="base-msvc" name="icl" if="use-icl">
+		<!--  disable Microsoft Extensions   -->
+		<compilerarg value="/Za" />
+	</compiler>
+	
+	<compiler id="icl-with-extensions" extends="base-msvc" name="icl"
+		if="use-icl">
+		<!--  enable Microsoft Extensions   -->
+		<compilerarg value="/Ze" />
+	</compiler>
+
+	<compiler id="ecl" extends="base-msvc" name="ecl" if="use-ecl">
+		<!--  disable Microsoft Extensions   -->
+		<compilerarg value="/Za" />
+	</compiler>
+	<compiler id="ecl-with-extensions" extends="base-msvc" name="ecl"
+		if="use-ecl">
+		<!--  enable Microsoft Extensions   -->
+		<compilerarg value="/Ze" />
+	</compiler>
+
+	<compiler id="bcc" name="bcc" if="use-bcc">
+		<!--  target Pentium Pro   -->
+		<compilerarg value="-6" />
+		<!--  zero length empty class member functions -->
+		<compilerarg value="-Vx" />
+		<compilerarg value="-Ve" />
+		<!--   align on quad word boundaries   -->
+		<compilerarg value="-a8" />
+		<!--   byte size enums   -->
+		<compilerarg value="-b-" />
+		<compilerarg value="-k" />
+		<compilerarg value="-y" if="is-debug" />
+		<compilerarg value="-vi" />
+		<compilerarg value="-r-" if="is-debug" />
+		<!--  maximize speed     -->
+		<compilerarg value="-O2" unless="is-debug" />
+	</compiler>
+
+	<compiler id="gcc" name="gcc" if="use-gcc">
+		<compilerarg value="-arch i386"/>
+		<compilerarg value="-O" unless="is-debug" />
+		<compilerarg value="-I /opt/local/include " />
+		<compilerarg value="-I /Developer/SDKs/MacOSX10.6.sdk/usr/include " />
+	</compiler>
+
+
+</project>

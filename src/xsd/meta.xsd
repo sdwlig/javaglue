@@ -1,0 +1,330 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 
+	Copyright (c) 2006 netAllied GmbH, Tettnang. All rights reserved.
+	Also see acknowledgements in Readme.html
+	
+	This program is free software; you can redistribute it and/or modify it under
+	the terms of the GNU Lesser General Public License as published by the Free Software
+	Foundation; either version 2 of the License, or (at your option) any later
+	version.
+	
+	This program is distributed in the hope that it will be useful, but WITHOUT
+	ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+	FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details.
+	
+	You should have received a copy of the GNU Lesser General Public License along with
+	this program; if not, write to the Free Software Foundation, Inc., 59 Temple
+	Place - Suite 330, Boston, MA 02111-1307, USA, or go to
+	http://www.gnu.org/copyleft/lesser.txt.
+	
+	Author: Kai Klesatschke <yavin@ogre4j.org>
+-->
+<xs:schema
+	xmlns="http://xbig.sourceforge.net/XBiG"
+	targetNamespace="http://xbig.sourceforge.net/XBiG"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	elementFormDefault="qualified">
+	<xs:annotation>
+		<xs:documentation>
+			This schema defines the meta layer for the generation of
+			foreign function interfaces between programming languages.
+			The format is lanaguage independent and the XML instance is
+			generated from Doxygen XML output.
+		</xs:documentation>
+	</xs:annotation>
+	<!-- INCLUDES -->
+	<xs:include schemaLocation="doxygen.xsd" />
+	<!-- COMPLEX TYPES -->
+	<xs:complexType name="Include">
+		<xs:attribute
+			name="local"
+			type="xs:string" />
+	</xs:complexType>
+	<xs:complexType name="Class">
+		<xs:annotation>
+			<xs:documentation>
+				This type represents a class of object oriented
+				programming languages. It can contain declarations of
+				types and function. As in C++ multiple inheritance is
+				possible.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element ref="detaileddescription" minOccurs="0"
+				maxOccurs="1">
+			</xs:element>
+			<xs:element name="includes" minOccurs="0" type="xs:string"/>
+			<xs:element minOccurs="0" name="inherits"
+				type="ListOfBaseClasses" />
+			<xs:element minOccurs="0" name="derives"
+				type="ListOfSubClasses" />
+			<xs:group ref="Declarations" />
+		</xs:sequence>
+		<xs:attribute name="name" type="xs:NCName"></xs:attribute>
+		<xs:attribute name="fullName" type="xs:Name"></xs:attribute>
+		<xs:attribute name="abstract" type="xs:boolean"></xs:attribute>
+		<xs:attribute name="protection">
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="public"></xs:enumeration>
+					<xs:enumeration value="protected"></xs:enumeration>
+					<xs:enumeration value="private"></xs:enumeration>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="Function">
+		<xs:annotation>
+			<xs:documentation>
+				The declaration of a function. Could be a member of a
+				namespace or a class.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element
+				ref="detaileddescription"
+				minOccurs="0"
+				maxOccurs="1" />
+			<xs:element
+				name="definition"
+				type="xs:string"
+				maxOccurs="1"
+				minOccurs="0" />
+			<xs:element
+				name="name"
+				type="xs:NCName"
+				maxOccurs="1"
+				minOccurs="0" />
+			<xs:element
+				name="type"
+				type="xs:string"
+				minOccurs="0"
+				maxOccurs="1" />
+			<xs:element
+				minOccurs="0"
+				maxOccurs="1"
+				name="parameters"
+				type="ParameterList" />
+		</xs:sequence>
+		<xs:attribute
+			name="virt"
+			type="xs:string" />
+		<xs:attribute
+			name="visibility"
+			type="xs:string" />
+		<xs:attribute
+			name="static"
+			type="xs:boolean" />
+		<xs:attribute
+			name="const"
+			type="xs:boolean" />
+		<xs:attribute
+			name="passedBy"
+			type="xs:string" />
+	</xs:complexType>
+	<xs:complexType name="Struct">
+		<xs:annotation>
+			<xs:documentation>
+				Declaration of a simple data structure.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element
+				ref="detaileddescription"
+				minOccurs="1"
+				maxOccurs="1" />
+			<xs:element
+				maxOccurs="unbounded"
+				name="param"
+				type="Parameter">
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Enumeration">
+		<xs:annotation>
+			<xs:documentation>
+				Declaration of a enumeration.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element ref="detaileddescription" minOccurs="1"
+				maxOccurs="1" />
+			<xs:element maxOccurs="unbounded" name="enum"
+				nillable="true" type="xs:NCName" />
+			<xs:element name="includes" type="xs:string" maxOccurs="1" minOccurs="0"></xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Typedef">
+		<xs:annotation>
+			<xs:documentation>
+				Declaration of a type definition. With type definition
+				it is possible to create new types by declaring an alias
+				for an existing type. E.g. "unsinged int" could become
+				"uint".
+			</xs:documentation>
+		</xs:annotation>
+		<xs:choice>
+			<xs:element
+				minOccurs="0"
+				maxOccurs="2"
+				name="type"
+				nillable="true"
+				type="xs:string" />
+			<xs:element
+				minOccurs="0"
+				maxOccurs="unbounded"
+				name="typedef"
+				type="Typedef" />
+		</xs:choice>
+	</xs:complexType>
+	<xs:complexType name="Parameter">
+		<xs:annotation>
+			<xs:documentation>
+				The declaration of an function parameter or a struct
+				member.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element
+				name="type"
+				type="xs:NCName"
+				minOccurs="1"
+				maxOccurs="1" />
+			<xs:element
+				name="name"
+				type="xs:NCName"
+				minOccurs="1"
+				maxOccurs="1" />
+		</xs:sequence>
+		<xs:attribute
+			name="passedBy"
+			type="xs:string"
+			use="optional">
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="ListOfSubClasses">
+		<xs:annotation>
+			<xs:documentation>
+				A list of classes which are inherit from a class.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element
+				maxOccurs="unbounded"
+				name="subClass"
+				nillable="true"
+				type="xs:QName" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ListOfBaseClasses">
+		<xs:annotation>
+			<xs:documentation>
+				A list of classes which a class class inherits from.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element
+				maxOccurs="unbounded"
+				name="baseClass"
+				nillable="true"
+				type="xs:QName" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ParameterList">
+		<xs:annotation>
+			<xs:documentation>A list of parameters.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element
+				maxOccurs="unbounded"
+				name="parameter"
+				type="Parameter" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Namespace">
+		<xs:annotation>
+			<xs:documentation>
+				Declaration of a namespace. A namespace could be
+				described as named, hierachical grouping of
+				declarations.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element
+				ref="detaileddescription"
+				minOccurs="0"
+				maxOccurs="1" />
+			<xs:group ref="Declarations" />
+		</xs:sequence>
+		<xs:attribute
+			name="name"
+			type="xs:Name" />
+		<xs:attribute
+			name="second"
+			type="xs:Name" />
+	</xs:complexType>
+	<!-- ELEMENTS -->
+	<xs:group name="Declarations">
+		<xs:annotation>
+			<xs:documentation>
+				Group of several declarations. This declaration occur in
+				several places.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element
+				minOccurs="0"
+				maxOccurs="unbounded"
+				name="class"
+				type="Class" />
+			<xs:element
+				minOccurs="0"
+				maxOccurs="unbounded"
+				name="struct"
+				type="Struct" />
+			<xs:element
+				minOccurs="0"
+				maxOccurs="unbounded"
+				name="enumeration"
+				type="Enumeration" />
+			<xs:element
+				minOccurs="0"
+				maxOccurs="unbounded"
+				name="typedef"
+				type="Typedef" />
+			<xs:element
+				minOccurs="0"
+				maxOccurs="unbounded"
+				name="function"
+				type="Function" />
+		</xs:sequence>
+	</xs:group>
+	<xs:element
+		name="detaileddescription"
+		type="descriptionType">
+		<xs:annotation>
+			<xs:documentation>
+				Detailed description of a declaration.
+			</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="meta">
+		<xs:annotation>
+			<xs:documentation>
+				The root element of the meta layer. It can contain
+				namespace hierarchies and flat declarations of types and
+				functions.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element
+					minOccurs="0"
+					maxOccurs="unbounded"
+					name="namespace"
+					type="Namespace" />
+				<xs:group ref="Declarations" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>
